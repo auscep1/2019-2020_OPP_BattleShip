@@ -1,2 +1,9 @@
 ﻿ASP.NET Web Forms Extensions - Syncfusion:
-https://marketplace.visualstudio.com/items?itemName=SyncfusionInc.ASPNET-Web-Forms-ExtensionsHosting:https://somee.com/DOKA/DOLogin.aspxauscep1Lietuva1https://codereview.stackexchange.com/questions/204982/web-battleship-the-unofficial-battleship-ui
+https://marketplace.visualstudio.com/items?itemName=SyncfusionInc.ASPNET-Web-Forms-Extensions
+
+Hosting:
+https://somee.com/DOKA/DOLogin.aspx
+auscep1
+Lietuva1
+
+https://codereview.stackexchange.com/questions/204982/web-battleship-the-unofficial-battleship-ui
