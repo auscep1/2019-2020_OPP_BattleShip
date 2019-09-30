@@ -20,14 +20,15 @@ namespace BattleShip.Controllers
             return View();
         }
 
+        public IActionResult Game()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        static int rows = 12;
-        static int columns = 12;
-
     }
 }
