@@ -377,18 +377,21 @@ var setBoard = function () {
             var ship_id = getShipId(ship);
             var shipPostfix = ship_id.charAt(ship_id.length - 1)
             var new_ship_id = shipPostfix == 'V' ? ship_id.slice(0, -1) : ship_id + "V";
-
             // check if with the new id there's collisions if not then sets the dimensions of the ship else undo the change
             ship.attr("id", new_ship_id);
             if (!checkCollision(ship)) {
-
-                if (document.getBoxObjectFor != null || window.mozInnerScreenX != null) {
-                    var height = ship.css("height");
-                    var width = ship.css("width");
-
-                    ship.css("height", width);
-                    ship.css("width", height);
-                }
+                var height = ship.css("height");
+                var width = ship.css("width");
+                ship.css("height", width);
+                ship.css("width", height);
+                //neveikė kažko pavertimas.
+                //if (document.getBoxObjectFor != null || window.mozInnerScreenX != null) {
+                //    var height = ship.css("height");
+                //    var width = ship.css("width");
+                //    ship.css("height", width);
+                //    ship.css("width", height);
+                //    console.log(ship_id);
+                //}
             } else {
                 ship.attr("id", ship_id);
             }
