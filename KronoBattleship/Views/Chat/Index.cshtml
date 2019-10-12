@@ -1,0 +1,225 @@
+﻿@model IEnumerable<KronoBattleship.Models.UserViewModel>
+@{
+    ViewBag.Title = "Chat";
+}
+
+<div class="row">
+    <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
+        <div class="people-list" id="people-list">
+            <!-- User list -->
+            @{ Html.RenderPartial("_UserList", Model);  }
+            <!-- end user list -->
+        </div>
+    </div>
+    <div class="col-xs-8 col-sm-8 col-md-9 col-lg-9">
+        <!-- Chat -->
+        <div class="chat">
+            <div class="chat-header clearfix">
+                <div class="chat-about">
+                    <div class="chat-with">Public Chat</div>
+                </div>
+                <i class="fa fa-star"></i>
+            </div> <!-- end chat-header -->
+            <div class="chat-history">
+                <ul id="chat-body"></ul>
+            </div>
+            <div class="chat-message clearfix">
+                <div class="write-form">
+                    <textarea id="public-message" placeholder="Type your message" rows="2"></textarea>
+                </div>
+            </div> <!-- end chat-message -->
+        </div> <!-- end chat -->
+        <!-- end chat -->
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div id="challengeToBattleModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <button type="button" class="close" onclick="battleAnswer(false)" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+                <div class="duel img-responsive"></div>
+                <h3>You've been challenged by:</h3>
+                <h2><span id="modalChallenger"></span></h2>
+                <h3>Do you accept?</h3>
+                <button type="button" class="btn btn-default" onclick="battleAnswer(true)" data-dismiss="modal">Accept</button>
+                <button type="button" class="btn btn-default" onclick="battleAnswer(false)" data-dismiss="modal">Reject</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="waitModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="duel img-responsive"></div>
+                <h2>Waiting for enemy</h2>
+                <p></p>
+                
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="rejectModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="fight-refused"></div>
+                <h2>Battle Rejected</h2>
+                <p></p>
+                
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section scripts {
+    @Scripts.Render("~/bundles/chat")
+    <script src="~/signalr/hubs"></script>
+    
+    <script id="player-template" type="text/x-handlebars-template">
+        <li>
+            <div class="message-data">
+                <span class="message-data-name"><i class="fa fa-circle online"></i> {{UserName}}</span>
+                <span class="message-data-time">{{Time}}</span>
+            </div>
+            <div class="message my-message">
+                {{Message}}
+            </div>
+        </li>
+    </script>
+    <script id="other-players-template" type="text/x-handlebars-template">
+        <li class="clearfix">
+            <div class="message-data align-right">
+                <span class="message-data-time">{{Time}}</span> &nbsp; &nbsp;
+                <span class="message-data-name">{{UserName}}  <i class="fa fa-circle me"></i></span>
+            </div>
+            <div class="message other-message float-right">
+                {{Message}}
+            </div>
+        </li>
+    </script>
+    <script id="player-li" type="text/x-handlebars-template">
+        <li class="clearfix" id="chat_user_{{UserName}}">
+            <img src="/Content/Icons/{{Picture}}" class="round-image-40">
+            <div class="about">
+                <div class="name">{{UserName}}</div>
+                <div class="status">
+                    <span id="status-icon-{{UserName}}" class="fa fa-bullseye offline"></span><span id="status-user-{{UserName}}">offline</span>
+                </div>
+            </div>
+            <div id="battle-btn-{{UserName}}" data-toggle="modal" data-target="#waitModal" onclick="challengeToFight('{{UserName}}')" class="btn btn-success btn-xs start-battle" style="display: none">Battle</div>
+        </li>
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        var currentUser = "@ViewBag.CurrentUser.UserName";
+       // console.log(currentUser);
+        var templateUser = Handlebars.compile($("#player-template").html());
+        var templateOther = Handlebars.compile($("#other-players-template").html());
+        var templatePlayerLi = Handlebars.compile($("#player-li").html());
+
+        var challengeToFight  = function(enemy){
+            //console.log("fight", enemy);
+            connectionStatus.server.battlePrompt(enemy, currentUser);
+        };
+
+
+        //$(function () {
+        // declare a proxy to reference hub
+        var connectionStatus = $.connection.connectionHub;
+        var chat = $.connection.chatHub;
+
+        connectionStatus.client.login = function (id) {
+            setOnline(id);
+        }
+        connectionStatus.client.logout = function (id) {
+            setOffline(id);
+        }
+        connectionStatus.client.newUser = function(id, userName, picture){
+            
+            var temp = {Id: id,UserName: userName, Picture: picture, Wins: 0, Losses: 0 };
+            $("#people-list").append(templatePlayerLi(temp));
+
+        }
+
+        connectionStatus.client.displayOnline = function (list) {
+            for (var i in list) {
+                setOnline(list[i]);
+            }
+        }
+
+        chat.client.broadcastMessage = function (username, message) {
+            var date = new Date();
+            var data = {UserName: username,Time: date.toLocaleTimeString() ,Message: message}
+            var  template = currentUser == username ? templateUser(data) :  templateOther(data);
+            $("#chat-body").append(template);
+            var chat = $(".chat-history");
+            chat.scrollTop(chat[0].scrollHeight);
+        };
+
+        // called button to start fight
+        //challengeToFight
+
+        connectionStatus.client.displayPrompt= function(player){
+            //var answer = prompt(text, "");
+            // TODO set the started player in the modal
+            $("#modalChallenger").text(player);
+            $("#challengeToBattleModal").modal(
+                {backdrop: 'static',
+                    keyboard: false,
+                    show: true,
+                });
+        }
+
+        var battleAnswer = function(answer){
+            var player =  $("#modalChallenger").text();
+            //connectionStatus.server.battleAnswer(player, answer);
+            if(answer)
+                redirect("/Battle/Create", "POST",  { user1: currentUser, user2: player});
+            else
+                connectionStatus.server.battleAnswer(player, -1);
+        }
+
+        connectionStatus.client.test = function(ans){
+            alert(ans);
+        }
+
+        // if answer === -1 fight was rejected
+        connectionStatus.client.answer = function(enemy, answer){
+            console.log(typeof answer, answer);
+            if(answer !== -1){
+                //alert("accept " + enemy + answer);
+                redirect("/Battle/Index",  "GET",  { battleId: answer});
+            }else {
+                $("#waitModal").modal("hide");
+                $("#rejectModal").modal();
+            };
+        }
+
+        $.connection.hub.start().done(function () {
+
+            //$('[id*="battle-btn-"]').click(console.log(this.id));
+            //$(".startBattle").click(console.log(this.data.userId));
+
+            //sender.server.setOnline($("#name").val());
+            $("#public-message").keypress(function (e) {
+                if (e.keyCode ===13) {
+                    chat.server.send(currentUser, $('#public-message').val());
+                    $('#public-message').val("");
+                }
+            });
+        });
+        // });
+
+
+    </script>
+
+}

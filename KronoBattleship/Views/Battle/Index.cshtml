@@ -1,0 +1,160 @@
+﻿@model KronoBattleship.Models.BattleViewModel
+@{
+    ViewBag.Title = "Battle";
+}
+
+
+<div class="row">
+    <div class="col-sm-7 col-md-6 col-lg-9" id="battle">
+        <div class="row">
+            <div id="info-div">
+
+                <div id="messages"></div>
+                <div id="btnGiveUp">
+                    <button id="btn-giveup" class="btn btn-warning btn-36">Give Up</button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div id="battle-field" class="" data-player-id="player_@Model.PlayerName"
+                 data-enemy-id="player_@Model.EnemyName" data-battle-id="@Model.BattleId">
+
+                <div id="player-board" class="board">
+
+                </div>
+
+                <div id="enemy-board" class="board">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-5 col-md-6 col-lg-3">
+        <div class="chat">
+
+            <div class="chat-header clearfix">
+                <img src="@Url.Content("~/Content/Icons/"+ Model.EnemyPicture)" class="round-image-40">
+                <div class="chat-about">
+                    <div class="chat-with">Chat with @Model.EnemyName</div>
+                </div>
+                <i class="fa fa-star"></i>
+            </div> <!-- end chat-header -->
+
+            <div class="chat-history">
+                <ul id="chat-body"></ul>
+
+            </div> <!-- end chat-history -->
+            <div class="chat-message clearfix">
+                <div class="write-form">
+                    <textarea id="private-message" placeholder="Type your message" rows="2"></textarea>
+                </div>
+            </div> <!-- end chat-message -->
+        </div> <!-- end chat -->
+    </div>
+</div>
+
+<div id="placeShipsModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="placeShipsInfo"></div>
+                <h2>All ships must be placed!</h2>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section scripts {
+    @Scripts.Render("~/bundles/battle")
+   
+    <script src="~/signalr/hubs"></script>
+    <script id="player-template" type="text/x-handlebars-template">
+        <li>
+            <div class="message-data">
+                <span class="message-data-name"><i class="fa fa-circle online"></i> {{UserName}}</span>
+                <span class="message-data-time">{{Time}}</span>
+            </div>
+            <div class="message my-message">
+                {{Message}}
+            </div>
+        </li>
+    </script>
+    <script id="other-players-template" type="text/x-handlebars-template">
+        <li class="clearfix">
+            <div class="message-data align-right">
+                <span class="message-data-time">{{Time}}</span> &nbsp; &nbsp;
+                <span class="message-data-name">{{UserName}}  <i class="fa fa-circle me"></i></span>
+            </div>
+            <div class="message other-message float-right">
+                {{Message}}
+            </div>
+        </li>
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        var battleJson = @Html.Raw(Json.Encode(Model));
+
+        var templateUser = Handlebars.compile($("#player-template").html());
+        var templateOther = Handlebars.compile($("#other-players-template").html());
+
+        //console.log("battle", battleJson.PlayerName, "enemy", battleJson.EnemyName);
+
+        var battleHub = $.connection.battleHub;
+
+        battleHub.client.broadcastMessage = function (username, message) {
+            console.log(username, message);
+            var date = new Date();
+            var data = { UserName: username, Time: date.toLocaleTimeString(), Message: message }
+            var template = battleJson.PlayerName === username ? templateUser(data) : templateOther(data);
+            $("#chat-body").append(template);
+            var chat = $(".chat-history");
+            chat.scrollTop(chat[0].scrollHeight);
+        };
+
+        battleHub.client.callFunction = function(functionName){
+            if(functionName === "enemyReady")
+            {
+                $("#messages").text("Enemy is ready").removeClass().addClass("bg-info");
+                console.log('enemyReady');
+            }
+            if(functionName === "readyToAttack"){
+                activateClick();
+                console.log('ready to attack');
+            }
+        }
+
+        battleHub.client.attack = function(functionName, attack){
+            if(functionName === "hit"){
+                activateClick();
+                $('#player-board #' + attack).append("<div class='explosion'></div>");
+            }
+            if(functionName === "miss"){
+                activateClick();$('#player-board #' + attack).append("<span class='hole miss'></span>");
+            }
+        }
+
+        battleHub.client.gameOver = function(winner){
+            gameOver(winner);
+        }
+
+
+
+        $.connection.hub.start().done(function () {
+            battleHub.server.join(battleJson.BattleId);
+            $("#private-message").keypress(function (e) {
+                if (e.keyCode === 13) {
+                    battleHub.server.send(battleJson.PlayerName, battleJson.BattleId, $('#private-message').val());
+                    $('#private-message').val("");
+                }
+            });
+            $("#send-private").click(function () {
+                battleHub.server.send(battleJson.PlayerName, battleJson.BattleId, $('#private-message').val());
+                $('#private-message').val("");
+            });
+        });
+
+    </script>
+}
