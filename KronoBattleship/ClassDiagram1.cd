@@ -1,2 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="KronoBattleship.Models.Ship">
+    <Position X="6" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAEAAAAAAAAAgEAAAAAACAAAIAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Models\Ship.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KronoBattleship.Models.ShipCoordinates">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAACAAAQAAABgABAAAAA=</HashCode>
+      <FileName>Models\ShipCoordinates.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KronoBattleship.Models.Battle" Collapsed="true">
+    <Position X="3.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAgAAAAgAAECAAAAAhAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Models\Battle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KronoBattleship.Models.User" Collapsed="true">
+    <Position X="3.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAACAAgAAAAAAAAAAAAAAAAAAAgAAQAAAAAAAA=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

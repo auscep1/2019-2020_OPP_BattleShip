@@ -18,6 +18,7 @@ namespace KronoBattleship.Datalayer
         }
 
         public DbSet<Battle> Battles { get; set; }
+        public DbSet<Ship> Ships { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

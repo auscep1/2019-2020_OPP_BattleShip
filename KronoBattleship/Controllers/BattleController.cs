@@ -6,6 +6,9 @@ using Microsoft.AspNet.SignalR;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Collections.Generic;
+using System;
+using KronoBattleship.DESIGN_PATTERNS.Builder;
 
 namespace KronoBattleship.Controllers
 {
@@ -59,6 +62,20 @@ namespace KronoBattleship.Controllers
             var playerName = getCurrentUserName();
             var db = new ApplicationDbContext();
             Battle battle = db.Battles.Find(battleId);
+
+            // ====== PRIDETA LOGIKA ====== 
+            var enemyName = battle.PlayerName == playerName ? battle.EnemyName : battle.PlayerName;
+            var enemyShips = db.Ships.Where(x => x.BattleId == battle.BattleId && x.PlayerName == enemyName);
+            int Xattack = attack % 10;
+            int Yattack = attack / 10;
+            Ship hittedShip = enemyShips.Where(xx => xx.Coordinates.Any(c => c.Alive == true && c.x == Xattack && c.y == Yattack)).FirstOrDefault();
+            if(hittedShip != null)
+            {
+                var coorToChange = enemyShips.Select(xx => xx.Coordinates.Where(c => c.Alive == true && c.x == Xattack && c.y == Yattack).FirstOrDefault()).FirstOrDefault();
+                coorToChange.Alive = false;
+            }
+            // ====== end PRIDETA LOGIKA ======
+
             if (playerName.Equals(battle.PlayerName))
             {
                 boardAfterAttack = battle.EnemyBoard;
@@ -72,7 +89,7 @@ namespace KronoBattleship.Controllers
                 battle.PlayerBoard = boardAfterAttack;
             }
 
-            if (isTheGameOver(boardAfterAttack))
+            if (isTheGameOver(boardAfterAttack, battle))
             {
                 gameOver = true;
                 battle.PlayerBoard = "";
@@ -88,6 +105,13 @@ namespace KronoBattleship.Controllers
                     battle.Player.Losses++;
                     battle.Enemy.Wins++;
                 }
+                // ====== PRIDETA LOGIKA ======
+                var shipsToRemove = db.Ships.Where(x => x.BattleId == battle.BattleId);
+                foreach(var ship in shipsToRemove)
+                {
+                    db.Ships.Remove(ship);
+                }
+                // ====== end PRIDETA LOGIKA ======
             }
             else
             {
@@ -125,9 +149,15 @@ namespace KronoBattleship.Controllers
                 battle.Player.Wins++;
                 battle.Enemy.Losses++;
             }
+            // -------- PRIDETA LOGIKA ------
+            var shipsToRemove = db.Ships.Where(x => x.BattleId == battle.BattleId);
+            foreach (var ship in shipsToRemove)
+            {
+                db.Ships.Remove(ship);
+            }
+            // -------- end PRIDETA LOGIKA ------
             db.SaveChanges();
         }
-
 
         [HttpPost]
         public ActionResult Ready(int battleId, string playerBoard)
@@ -135,6 +165,98 @@ namespace KronoBattleship.Controllers
             var db = new ApplicationDbContext();
             Battle battle = db.Battles.Find(battleId);
             var currentUserName = getCurrentUserName();
+
+            // ====== PRIDETA LOGIKA ======
+            var currentPlayer = db.Users.FirstOrDefault(x => x.UserName == currentUserName);
+            //LAIVAI: a5, m3, q3, i2, e2 ----- coskg (viena grupe vertikali kita horizontali
+            List<List<char>> list = new List<List<char>>();
+            var copy = playerBoard;
+            var ships = "acegikmoqs";
+            for (int i = 0; i < copy.Length; i++)
+            {
+                if (ships.Contains(copy[i]) && ships.Length > 0)
+                {
+                    var x = i % 10;
+                    var y = i / 10;
+                    int endx = 0;
+                    int endy = 0;
+
+                    bool isHorizontal = i < copy.Length - 1 && copy[i + 1] == copy[i] ? true : false;
+                    switch (copy[i])
+                    {
+                        case 'a':
+                            endx = isHorizontal ? x + 4 : x;
+                            endy = isHorizontal ? y : y + 4;
+                            break;
+                        case 'c':
+                            endx = isHorizontal ? x + 4 : x;
+                            endy = isHorizontal ? y : y + 4;
+                            break;
+                        case 'm':
+                            endx = isHorizontal ? x + 2 : x;
+                            endy = isHorizontal ? y : y + 2;
+                            break;
+                        case 'o':
+                            endx = isHorizontal ? x + 2 : x;
+                            endy = isHorizontal ? y : y + 2;
+                            break;
+                        case 'q':
+                            endx = isHorizontal ? x + 2 : x;
+                            endy = isHorizontal ? y : y + 2;
+                            break;
+                        case 's':
+                            endx = isHorizontal ? x + 2 : x;
+                            endy = isHorizontal ? y : y + 2;
+                            break;
+                        case 'i':
+                            endx = isHorizontal ? x + 1 : x;
+                            endy = isHorizontal ? y : y + 1;
+                            break;
+                        case 'k':
+                            endx = isHorizontal ? x + 1 : x;
+                            endy = isHorizontal ? y : y + 1;
+                            break;
+                        case 'e':
+                            endx = isHorizontal ? x + 1 : x;
+                            endy = isHorizontal ? y : y + 1;
+                            break;
+                        case 'g':
+                            endx = isHorizontal ? x + 1 : x;
+                            endy = isHorizontal ? y : y + 1;
+                            break;
+                    }
+                    ships = ships.Remove(ships.IndexOf(copy[i]), 1);
+                    //Ship ship = new Ship(currentPlayer, battle);
+
+                    //while (x <= endx && y <= endy)
+                    //{
+                    //    ship.Coordinates.Add(new ShipCoordinates(x, y, ship));
+                    //    if (isHorizontal)
+                    //    {
+                    //        x++;
+                    //    }
+                    //    else
+                    //    {
+                    //        y++;
+                    //    }
+                    //}
+                    //ship.Size = ship.Coordinates.Count;
+
+                    var builder = new ShipBuilder(currentPlayer, battle, x, endx, y, endy, isHorizontal);
+                    builder.BuildBase();
+                    builder.BuildCoordinates();
+                    builder.BuildSize();
+                    Ship ship = builder.GetShip();
+
+                    db.Ships.Add(ship);
+                }
+            }
+            // ====== end PRIDETA LOGIKA ======
+            
+
+            //var db = new ApplicationDbContext();
+            //Battle battle = db.Battles.Find(battleId);
+            //var currentUserName = getCurrentUserName();
             string enemyBoard;
             if (currentUserName.Equals(battle.PlayerName))
             {
@@ -193,8 +315,16 @@ namespace KronoBattleship.Controllers
             enemyBoard = new string(tempBoard);
         }
 
-        private bool isTheGameOver(string enemyboard)
+        private bool isTheGameOver(string enemyboard, Battle battle)
         {
+            // ====== PRIDETA LOGIKA ======
+            var db = new ApplicationDbContext();
+            var player1IsDead = db.Ships.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.PlayerName).All(x => x.Coordinates.All(xx => xx.Alive == false));
+            var player2IsDead = db.Ships.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.EnemyName).All(x => x.Coordinates.All(xx => xx.Alive == false));
+            /*UZKOMENTUOTA NES NU VA APACIOJ KITAIP 
+             * return player1IsDead || player2IsDead;*/
+            // ====== end PRIDETA LOGIKA ======
+
             // check if all the ships have been hit
             return enemyboard.FirstOrDefault(c => c != 'y' && c != 'z' && ("acegikmoqs".Contains(c)))
                              .Equals('\0');
