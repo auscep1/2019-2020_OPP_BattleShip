@@ -1,0 +1,9 @@
+﻿1. run project after git clone:
+	-create App_Data catalog in KronoBattleship folder
+	-nuget->update-database
+	-build release
+	-run project
+
+2. If update-database .mdf can't create, then run in nuget:
+		sqllocaldb.exe stop
+		sqllocaldb.exe delete
