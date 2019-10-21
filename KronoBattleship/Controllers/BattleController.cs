@@ -68,11 +68,11 @@ namespace KronoBattleship.Controllers
             var enemyShips = db.Ships.Where(x => x.BattleId == battle.BattleId && x.PlayerName == enemyName);
             int Xattack = attack % 10;
             int Yattack = attack / 10;
-            Ship hittedShip = enemyShips.Where(xx => xx.Coordinates.Any(c => c.Alive == true && c.x == Xattack && c.y == Yattack)).FirstOrDefault();
-            if(hittedShip != null)
+            var hittedShipCoor = enemyShips.SelectMany(xx => xx.Coordinates.Where(c => c.Alive == true && c.x == Xattack && c.y == Yattack).ToList()).FirstOrDefault();
+            if(hittedShipCoor != null)
             {
-                var coorToChange = enemyShips.Select(xx => xx.Coordinates.Where(c => c.Alive == true && c.x == Xattack && c.y == Yattack).FirstOrDefault()).FirstOrDefault();
-                coorToChange.Alive = false;
+                //var coorToChange = hittedShip.Coordinates.Where(c => c.Alive == true && c.x == Xattack && c.y == Yattack).FirstOrDefault();//enemyShips.Select(xx => xx.Coordinates.Where(c => c.Alive == true && c.x == Xattack && c.y == Yattack).FirstOrDefault()).FirstOrDefault();
+                hittedShipCoor.Alive = false;
             }
             // ====== end PRIDETA LOGIKA ======
 
