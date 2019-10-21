@@ -6,7 +6,7 @@ using System.Web;
 
 namespace KronoBattleship.Models
 {
-    public class Plane 
+    public class Plane : Unit
     {
         public Plane()
         {
@@ -22,10 +22,10 @@ namespace KronoBattleship.Models
         }
         public int PlaneId { get; set; }
         public int Size { get; set; }
-        public List<ShipCoordinates> Coordinates { get; set; }
-        public string PlayerName { get; set; }
-        public virtual User Player { get; set; }
-        public int BattleId { get; set; }
-        public virtual Battle Battle { get; set; }
+        public new List<ShipCoordinates> Coordinates { get; set; }
+        public new string PlayerName { get; set; }
+        public new virtual User Player { get; set; }
+        public new int BattleId { get; set; }
+        public new virtual Battle Battle { get; set; }
     }
 }

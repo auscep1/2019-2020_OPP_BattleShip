@@ -4,13 +4,14 @@ using System.Linq;
 using System.Web;
 using KronoBattleship.Models;
 
-namespace KronoBattleship.DESIGN_PATTERNS.AbstractFactory
+namespace KronoBattleship.DESIGN_PATTERNS.Factory
 {
-    public abstract class AbstractFactory
+    public abstract class Factory
     {
+        /**
         public abstract Unit createPlane();
 
-        public abstract Unit createShip();
+        public abstract Unit createShip();**/
 
     }
 }
