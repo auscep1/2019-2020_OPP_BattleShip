@@ -1,4 +1,4 @@
-﻿using KronoBattleship.DESIGN_PATTERNS.AbstractFactory;
+﻿using KronoBattleship.DESIGN_PATTERNS.Factory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
