@@ -188,7 +188,24 @@
     <Compile Include="Datalayer\ApplicationDbContext.cs" />
     <Compile Include="Datalayer\BattleConfiguration.cs" />
     <Compile Include="Datalayer\UserConfiguration.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\AbstractFactory.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\FourDeckerFactory.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\FourDeckerPlane.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\FourDeckerShip.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\SingleDeckerFactory.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\SingleDeckerPlane.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\SingleDeckerShip.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\ThreeDeckerFactory.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\ThreeDeckerPlane.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\ThreeDeckerShip.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\TwoDeckerFactory.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\TwoDeckerPlane.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\TwoDeckerShip.cs" />
+    <Compile Include="DESIGN_PATTERNS\AbstractFactory\Unit.cs" />
     <Compile Include="DESIGN_PATTERNS\Builder\Builder.cs" />
+    <Compile Include="DESIGN_PATTERNS\Strategy\Algorithm.cs" />
+    <Compile Include="DESIGN_PATTERNS\Strategy\AlgorithmFactory.cs" />
+    <Compile Include="DESIGN_PATTERNS\Strategy\IStrategy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -231,6 +248,7 @@
     <Compile Include="Models\BattleViewModel.cs" />
     <Compile Include="Models\ConnectionMapping.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Plane.cs" />
     <Compile Include="Models\Ship.cs" />
     <Compile Include="Models\ShipCoordinates.cs" />
     <Compile Include="Models\User.cs" />
@@ -239,6 +257,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="auscep1.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
