@@ -18,7 +18,7 @@ namespace KronoBattleship.Controllers
         // GET: Battle/id
         public ActionResult Index(int battleId)
         {
-            var db = new ApplicationDbContext();
+            var db = ApplicationDbContext.GetInstance();
             Battle battle = db.Battles.Find(battleId);
             var currentUserName = getCurrentUserName();
             if (battle != null && (currentUserName.Equals(battle.PlayerName) || currentUserName.Equals(battle.EnemyName)))
@@ -36,7 +36,7 @@ namespace KronoBattleship.Controllers
             string playerName, enemyName;
 
             getPlayers(user1, user2, out playerName, out enemyName);
-            var db = new ApplicationDbContext();
+            var db = ApplicationDbContext.GetInstance();
             Battle battle = db.Battles.Where(b => b.PlayerName.Equals(playerName) && b.EnemyName.Equals(enemyName)).FirstOrDefault();
             if (battle == null)
             {
@@ -60,7 +60,7 @@ namespace KronoBattleship.Controllers
             bool gameOver = false;
             string boardAfterAttack;
             var playerName = getCurrentUserName();
-            var db = new ApplicationDbContext();
+            var db = ApplicationDbContext.GetInstance();
             Battle battle = db.Battles.Find(battleId);
 
             // ====== PRIDETA LOGIKA ====== 
@@ -132,7 +132,7 @@ namespace KronoBattleship.Controllers
         [HttpPost]
         public void GameOver(int battleId)
         {
-            var db = new ApplicationDbContext();
+            var db = ApplicationDbContext.GetInstance();
             Battle battle = db.Battles.Find(battleId);
             var currentUserName = getCurrentUserName();
 
@@ -162,7 +162,7 @@ namespace KronoBattleship.Controllers
         [HttpPost]
         public ActionResult Ready(int battleId, string playerBoard)
         {
-            var db = new ApplicationDbContext();
+            var db = ApplicationDbContext.GetInstance();
             Battle battle = db.Battles.Find(battleId);
             var currentUserName = getCurrentUserName();
 
@@ -318,7 +318,7 @@ namespace KronoBattleship.Controllers
         private bool isTheGameOver(string enemyboard, Battle battle)
         {
             // ====== PRIDETA LOGIKA ======
-            var db = new ApplicationDbContext();
+            var db = ApplicationDbContext.GetInstance();
             var player1IsDead = db.Ships.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.PlayerName).All(x => x.Coordinates.All(xx => xx.Alive == false));
             var player2IsDead = db.Ships.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.EnemyName).All(x => x.Coordinates.All(xx => xx.Alive == false));
             /*UZKOMENTUOTA NES NU VA APACIOJ KITAIP 

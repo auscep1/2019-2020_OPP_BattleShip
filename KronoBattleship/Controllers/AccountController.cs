@@ -77,7 +77,7 @@ namespace KronoBattleship.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var context = new ApplicationDbContext(); 
+            var context = ApplicationDbContext.GetInstance(); 
             // as I changed the default username I had to find the user and pass it to the manager
             // TODO fix if user doesn't exist, at the moment getting an error 
             var user = context.Users.Where(u => u.Email == model.Email).FirstOrDefault();
