@@ -8,7 +8,10 @@ namespace KronoBattleship.DESIGN_PATTERNS.AbstractFactory
 {
     public abstract class Unit
     {
-        protected List<ShipCoordinates> Coordinates;
+        public abstract Unit Product { get; }
+        public abstract string ProductName { get; }
+
+     /**   protected List<ShipCoordinates> Coordinates;
         protected string PlayerName;
         protected int BattleId;
         protected User Player;
@@ -24,6 +27,6 @@ namespace KronoBattleship.DESIGN_PATTERNS.AbstractFactory
             BattleId = battle.BattleId;
             Battle = battle;
             Coordinates = new List<ShipCoordinates>();
-        }
+        }**/
     }
 }
