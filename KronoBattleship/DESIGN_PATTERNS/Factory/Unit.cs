@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using KronoBattleship.Models;
 
-namespace KronoBattleship.DESIGN_PATTERNS.AbstractFactory
+namespace KronoBattleship.DESIGN_PATTERNS.Factory
 {
     public abstract class Unit
     {
