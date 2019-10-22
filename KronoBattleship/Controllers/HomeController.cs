@@ -25,7 +25,7 @@ namespace KronoBattleship.Controllers
 
         public ActionResult LeaderBoard()
         {
-            var db = new ApplicationDbContext();
+            var db = ApplicationDbContext.GetInstance();
             return View(UserViewModel.GetList(db.Users.ToList()));
         }
     }

@@ -12,14 +12,25 @@ namespace KronoBattleship.Datalayer
 
     public class ApplicationDbContext : IdentityDbContext<User>
     {
-        public ApplicationDbContext()
+        public static ApplicationDbContext instance = null;
+        private static object threadLock = new object();
+        private ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-
+        public static ApplicationDbContext GetInstance()
+        {
+            if (instance == null)
+            {
+                lock (threadLock)
+                {
+                    instance = new ApplicationDbContext();
+                }
+            }
+            return instance;
+        }
         public DbSet<Battle> Battles { get; set; }
         public DbSet<Ship> Ships { get; set; }
-        public DbSet<Plane> Plane { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
