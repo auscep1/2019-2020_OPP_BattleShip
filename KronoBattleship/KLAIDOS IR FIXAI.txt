@@ -1,0 +1,13 @@
+﻿1. run project after git clone:
+	-create App_Data catalog in KronoBattleship folder
+	-nuget->update-database
+	-build release
+	-run project
+
+2. If update-database .mdf can't create, then run in nuget:
+		sqllocaldb.exe stop
+		sqllocaldb.exe delete
+
+3. The target context 'KronoBattleship.Datalayer.ApplicationDbContext' is not constructible. Add a default constructor or provide an implementation of IDbContextFactory
+
+	SPRENDIMAS: ApplicationDbContext konstruktoriu pakeist i public, o po updato atkeist i private
