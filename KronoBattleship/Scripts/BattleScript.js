@@ -13,14 +13,16 @@ var playerReady = function () {
     $("#btnGiveUp").show();
     $("#enemy-board").show();
     $(".ship").draggable("destroy");
+    $(".plane").draggable("destroy");
     $(".seaBox").droppable("destroy");
     $(".ship").off("dblclick");
+    $(".plane").off("dblclick");
 
     $("#messages").text("Waiting for the enemy").removeClass().addClass("bg-info");
 }
 
-var ships = [["aircraft", "aircraftV", "destroyer1", "destroyer1V", "destroyer2", "destroyer2V", "cruiser1", "cruiser1V", "cruiser2", "cruiser2V"],
-    ['a', 'c', 'e', 'g', 'i', 'k', 'm', 'o', 'q', 's']];
+var ships = [["aircraft", "aircraftV", "destroyer1", "destroyer1V", "destroyer2", "destroyer2V", "cruiser1", "cruiser1V", "cruiser2", "cruiser2V", "plane1", "plane2"],
+    ['a', 'c', 'e', 'g', 'i', 'k', 'm', 'o', 'q', 's','p','r']];
 
 function displayPlayerShips(board) {
     var ignoreChar = "x"
@@ -37,7 +39,7 @@ function displayPlayerShips(board) {
 }
 
 function displayplayerAttacks(board) {
-    var ignoreChar = "xacegikmoqs"
+    var ignoreChar = "xacegikmoqspr"
     for (var i = 0; i < board.length; i++) {
         var char = board[i];
         if (ignoreChar.indexOf(char) == -1) {
@@ -53,7 +55,7 @@ function displayplayerAttacks(board) {
 
 
 function displayEnemyBoard(board) {
-    var ignoreChar = "xacegikmoqs"
+    var ignoreChar = "xacegikmoqspr"
     for (var i = 0; i < board.length; i++) {
         var char = board[i];
         if (ignoreChar.indexOf(char) == -1) {
@@ -141,7 +143,10 @@ function getShipSizeById(shipId) {
         size = 5;
     } else if (shipId.indexOf("cruiser") > -1) {
         size = 3;
-    } else {
+    }
+    else if (shipId.indexOf("plane1") > -1) {
+        size = 1;
+    }else {
         size = 2;
     }
     return size;
@@ -260,7 +265,10 @@ function calculateShipPosition(shipId, pos) {
     }
     else if (shipId.indexOf("cruiser") > -1) {
         headPos = pos - (1 * getStepById(shipId));
-    } else {
+    /** }
+   else if (shipId.indexOf("plane1") > -1) {
+        headPos = pos - (1 * getStepById(shipId));**/
+    }else {
         headPos = pos;
     }
     return headPos;
@@ -333,6 +341,10 @@ var setBoard = function () {
             '<div class="ship" id="cruiser2"></div>' +
             '<div class="spacer"> </div>' +
             '<div class="ship" id="destroyer2"></div>' +
+            '<div class="spacer"> </div>' +
+            '<div class="ship" id="plane2"></div>' +
+            '<div class="spacer"> </div>' +
+            '<div class="ship" id="plane1"></div>' +
             '</div>' +
             '<button id="ready" class="btn btn-primary btn-block btn-36 alt">Ready</button>' +
             '</div>' +

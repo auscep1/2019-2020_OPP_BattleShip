@@ -247,6 +247,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\plane1.png" />
+    <Content Include="Content\Images\plane2.png" />
     <Content Include="KLAIDOS IR FIXAI.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

@@ -169,10 +169,10 @@ namespace KronoBattleship.Controllers
 
             // ====== PRIDETA LOGIKA ======
             var currentPlayer = db.Users.FirstOrDefault(x => x.UserName == currentUserName);
-            //LAIVAI: a5, m3, q3, i2, e2 ----- coskg (viena grupe vertikali kita horizontali
+            //LAIVAI: a5, m3, q3, i2, e2, LEKTUVAI:p1, r2 ----- coskg (viena grupe vertikali kita horizontali
             List<List<char>> list = new List<List<char>>();
             var copy = playerBoard;
-            var ships = "acegikmoqs";
+            var ships = "acegikmoqspr";
             for (int i = 0; i < copy.Length; i++)
             {
                 if (ships.Contains(copy[i]) && ships.Length > 0)
@@ -222,6 +222,15 @@ namespace KronoBattleship.Controllers
                             endy = isHorizontal ? y : y + 1;
                             break;
                         case 'g':
+                            endx = isHorizontal ? x + 1 : x;
+                            endy = isHorizontal ? y : y + 1;
+                            break;
+                        case 'p':  /**vienvietis**/
+                            isHorizontal = true;
+                            endx = x;
+                            endy = y;
+                            break;
+                        case 'r':
                             endx = isHorizontal ? x + 1 : x;
                             endy = isHorizontal ? y : y + 1;
                             break;
@@ -312,7 +321,7 @@ namespace KronoBattleship.Controllers
         private void shipHit(int attack, out bool hit, ref string enemyBoard)
         {
             // if the enemyboard contains any letter that indicates is a ship
-            hit = "acegikmoqs".Contains(enemyBoard[attack]);
+            hit = "acegikmoqspr".Contains(enemyBoard[attack]);
             char[] tempBoard = enemyBoard.ToCharArray();
             // increase the letter at the possition of the attack
             tempBoard[attack] = (char)(enemyBoard[attack] + 1);
@@ -330,7 +339,7 @@ namespace KronoBattleship.Controllers
             // ====== end PRIDETA LOGIKA ======
 
             // check if all the ships have been hit
-            return enemyboard.FirstOrDefault(c => c != 'y' && c != 'z' && ("acegikmoqs".Contains(c)))
+            return enemyboard.FirstOrDefault(c => c != 'y' && c != 'z' && ("acegikmoqspr".Contains(c)))
                              .Equals('\0');
         }
     }

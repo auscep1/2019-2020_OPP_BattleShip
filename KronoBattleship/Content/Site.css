@@ -725,6 +725,23 @@ body {
     background-repeat: no-repeat;
     background-position: 0;
 }
+#plane2 {
+    height: 39px;
+    width: 79px;
+    background: url("Images/plane2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0;
+}
+/** 1 cells **/
+#plane1 {
+    height: 39px;
+    width: 39px;
+    background: url("Images/plane1.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0;
+}
 
 .ship {
     position: absolute;
