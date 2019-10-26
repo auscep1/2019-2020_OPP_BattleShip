@@ -11,3 +11,7 @@
 3. The target context 'KronoBattleship.Datalayer.ApplicationDbContext' is not constructible. Add a default constructor or provide an implementation of IDbContextFactory
 
 	SPRENDIMAS: ApplicationDbContext konstruktoriu pakeist i public, o po updato atkeist i private
+
+4. update-database : Cannot bind argument to parameter 'Path' because it is null.
+		1) PM> Uninstall-Package EntityFramework -Force
+		2) PM> Install-Package EntityFramework -Pre
