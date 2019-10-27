@@ -21,8 +21,8 @@ var playerReady = function () {
     $("#messages").text("Waiting for the enemy").removeClass().addClass("bg-info");
 }
 
-var ships = [["aircraft", "aircraftV", "destroyer1", "destroyer1V", "destroyer2", "destroyer2V", "cruiser1", "cruiser1V", "cruiser2", "cruiser2V", "plane1", "plane2"],
-    ['a', 'c', 'e', 'g', 'i', 'k', 'm', 'o', 'q', 's','p','r']];
+var ships = [["aircraft", "aircraftV", "destroyer1", "destroyer1V", "destroyer2", "destroyer2V", "cruiser1", /**"cruiser1V"**/"plane1", "cruiser2", /**"cruiser2V",**/ "plane2"],
+    ['a', 'c', 'e', 'g', 'i', 'k', 'm', 'o', 'q', 's']];
 
 function displayPlayerShips(board) {
     var ignoreChar = "x"
@@ -39,7 +39,7 @@ function displayPlayerShips(board) {
 }
 
 function displayplayerAttacks(board) {
-    var ignoreChar = "xacegikmoqspr"
+    var ignoreChar = "xacegikmoqs"
     for (var i = 0; i < board.length; i++) {
         var char = board[i];
         if (ignoreChar.indexOf(char) == -1) {
@@ -55,7 +55,7 @@ function displayplayerAttacks(board) {
 
 
 function displayEnemyBoard(board) {
-    var ignoreChar = "xacegikmoqspr"
+    var ignoreChar = "xacegikmoqs"
     for (var i = 0; i < board.length; i++) {
         var char = board[i];
         if (ignoreChar.indexOf(char) == -1) {

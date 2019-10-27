@@ -169,10 +169,10 @@ namespace KronoBattleship.Controllers
 
             // ====== PRIDETA LOGIKA ======
             var currentPlayer = db.Users.FirstOrDefault(x => x.UserName == currentUserName);
-            //LAIVAI: a5, m3, q3, i2, e2, LEKTUVAI:p1, r2 ----- coskg (viena grupe vertikali kita horizontali
+            //LAIVAI: a5, m3, q3, i2, e2, LEKTUVAI:o1, s2 ----- coskg (viena grupe vertikali kita horizontali
             List<List<char>> list = new List<List<char>>();
             var copy = playerBoard;
-            var ships = "acegikmoqspr";
+            var ships = "acegikmoqs";
             for (int i = 0; i < copy.Length; i++)
             {
                 if (ships.Contains(copy[i]) && ships.Length > 0)
@@ -197,15 +197,7 @@ namespace KronoBattleship.Controllers
                             endx = isHorizontal ? x + 2 : x;
                             endy = isHorizontal ? y : y + 2;
                             break;
-                        case 'o':
-                            endx = isHorizontal ? x + 2 : x;
-                            endy = isHorizontal ? y : y + 2;
-                            break;
                         case 'q':
-                            endx = isHorizontal ? x + 2 : x;
-                            endy = isHorizontal ? y : y + 2;
-                            break;
-                        case 's':
                             endx = isHorizontal ? x + 2 : x;
                             endy = isHorizontal ? y : y + 2;
                             break;
@@ -225,12 +217,12 @@ namespace KronoBattleship.Controllers
                             endx = isHorizontal ? x + 1 : x;
                             endy = isHorizontal ? y : y + 1;
                             break;
-                        case 'p':  /**vienvietis**/
+                        case 'o':  /**vienvietis**/
                             isHorizontal = true;
                             endx = x;
                             endy = y;
                             break;
-                        case 'r':
+                        case 's':
                             endx = isHorizontal ? x + 1 : x;
                             endy = isHorizontal ? y : y + 1;
                             break;
@@ -321,7 +313,7 @@ namespace KronoBattleship.Controllers
         private void shipHit(int attack, out bool hit, ref string enemyBoard)
         {
             // if the enemyboard contains any letter that indicates is a ship
-            hit = "acegikmoqspr".Contains(enemyBoard[attack]);
+            hit = "acegikmoqs".Contains(enemyBoard[attack]);
             char[] tempBoard = enemyBoard.ToCharArray();
             // increase the letter at the possition of the attack
             tempBoard[attack] = (char)(enemyBoard[attack] + 1);
@@ -339,7 +331,7 @@ namespace KronoBattleship.Controllers
             // ====== end PRIDETA LOGIKA ======
 
             // check if all the ships have been hit
-            return enemyboard.FirstOrDefault(c => c != 'y' && c != 'z' && ("acegikmoqspr".Contains(c)))
+            return enemyboard.FirstOrDefault(c => c != 'y' && c != 'z' && ("acegikmoqs".Contains(c)))
                              .Equals('\0');
         }
     }
