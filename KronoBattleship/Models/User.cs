@@ -27,6 +27,7 @@ namespace KronoBattleship.Models
             userIdentity.AddClaim(new Claim("Picture", this.Picture));
             return userIdentity;
         }
+        public User Copy() => (User)this.MemberwiseClone();
 
         public int Wins { get; set; }
         public int Losses { get; set; }
