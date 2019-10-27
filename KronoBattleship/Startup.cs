@@ -1,4 +1,5 @@
 ﻿using KronoBattleship.DESIGN_PATTERNS.Factory;
+using KronoBattleship.Models;
 using Microsoft.Owin;
 using Owin;
 
@@ -25,6 +26,13 @@ namespace KronoBattleship
          **/
             ConfigureAuth(app);
             app.MapSignalR();
+            ////Prototype patikrinimui. NETRINTI!
+            //var user = new User();
+            //user.UserName = "123";
+            //var user1 = new User();
+            //user1.UserName = "123";
+            //var plane = new Plane(user, new Battle(user, user1));
+            //plane.DeepClone();
         }
     }
 }

@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using KronoBattleship.Models;
+using KronoBattleship.DESIGN_PATTERNS.Prototype_pattern;
 
 namespace KronoBattleship.DESIGN_PATTERNS.Factory
 {
-     public abstract class Unit
-     {
+    public abstract class Unit : IPrototype
+    {
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
          public abstract Unit UnitObj { get; } //temporrary
          public abstract string ProductName { get; } //temporrary
 

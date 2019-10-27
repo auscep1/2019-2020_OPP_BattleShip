@@ -25,6 +25,10 @@ namespace KronoBattleship.Models
             //PlayerBoard = new String('x', 100);
             PlayerBoard = EnemyBoard = "";
         }
+        public Battle Copy()
+        {
+            return (Battle)this.MemberwiseClone();
+        }
         public int BattleId { get; set; }
 
         public string PlayerName { get; set; }
