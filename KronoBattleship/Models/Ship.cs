@@ -7,7 +7,7 @@ using System.Web;
 
 namespace KronoBattleship.Models
 {
-    public class Ship : Unit
+    public class Ship
     {
         public Ship()
         {
@@ -49,8 +49,5 @@ namespace KronoBattleship.Models
         public virtual User Player { get; set; }
         public int BattleId { get; set; }
         public virtual Battle Battle { get; set; }
-
-        public override string ProductName { get { return "It's Ship"; } }
-        public override Unit Product { get { return new Ship(); } }
     }
 }
