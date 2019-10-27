@@ -6,27 +6,18 @@ using KronoBattleship.Models;
 
 namespace KronoBattleship.DESIGN_PATTERNS.Factory
 {
-    public abstract class Unit
-    {
-        public abstract Unit Product { get; }
-        public abstract string ProductName { get; }
+     public abstract class Unit
+     {
+         public abstract Unit UnitObj { get; } //temporrary
+         public abstract string ProductName { get; } //temporrary
 
-     /**   protected List<ShipCoordinates> Coordinates;
-        protected string PlayerName;
-        protected int BattleId;
-        protected User Player;
-        protected Battle Battle;
-        protected Unit()
-        {
-            Coordinates = new List<ShipCoordinates>();
-        }
-        protected Unit(User owner, Battle battle)
-        {
-            PlayerName = owner.UserName;
-            Player = owner;
-            BattleId = battle.BattleId;
-            Battle = battle;
-            Coordinates = new List<ShipCoordinates>();
-        }**/
-    }
+         //public abstract int UnitId { get; set; }
+         public abstract int Size { get; set; }
+         public abstract List<ShipCoordinates> Coordinates { get; set; }
+         public abstract string PlayerName { get; set; }
+         public abstract int BattleId { get; set; }
+
+         public virtual User Player { get; set; }
+         public virtual Battle Battle { get; set; }
+     }
 }

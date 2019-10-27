@@ -1,4 +1,5 @@
 ﻿using KronoBattleship.DESIGN_PATTERNS.Builder;
+using KronoBattleship.DESIGN_PATTERNS.Factory;
 using KronoBattleship.Models;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,19 @@ namespace KronoBattleship.DESIGN_PATTERNS.Facade
             builder.BuildSize();
 
             return builder.GetShip();
+        }
+
+        /// <summary>
+        /// Returns new Plane
+        /// </summary>
+        /// <returns>Plane</returns>
+        public Unit GetPlane()
+        {
+            PlaneFactory factory = new PlaneFactory(Owner, Battle, x, endx, y, endy, isHorizontal);
+            factory.Base();
+            factory.Coordinates();
+            factory.Size();
+            return factory.GetUnit();
         }
     }
 }

@@ -20,16 +20,21 @@ namespace KronoBattleship.Models
             Battle = battle;
             Coordinates = new List<ShipCoordinates>();
         }
-        public int PlaneId { get; set; }
-        public int Size { get; set; }
-        public  List<ShipCoordinates> Coordinates { get; set; }
-        public  string PlayerName { get; set; }
-        public  virtual User Player { get; set; }
-        public  int BattleId { get; set; }
-        public  virtual Battle Battle { get; set; }
+        //public int PlaneId { get; set; }
 
+        public int PlaneId { get; set; }
+       // public override int UnitId { get { return PlaneId; } }
+        public override int Size { get; set; }
+        public  override List<ShipCoordinates> Coordinates { get; set; }
+        public override string PlayerName { get; set; }
+        public override int BattleId { get; set; }
+
+        public new User Player { get; set; }
+        public new Battle Battle { get; set; }
+
+        /*temorrary*/
         public override string ProductName { get { return "It's Plane"; } }
-        public override Unit Product { get { return new Plane(); } }
+        public override Unit UnitObj { get { return new Plane(); } }
 
     }
 }
