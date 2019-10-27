@@ -21,27 +21,27 @@ namespace KronoBattleship.Models
             Battle = battle;
             Coordinates = new List<ShipCoordinates>();
         }
-        public Ship CloneShalow() => (Ship)this.Clone();
-        public object ShalowClone()
-        {
-            return (Ship)this.MemberwiseClone();
-        }
-        public Ship DeepClone()
-        {
-            Ship cloned = (Ship)this.Clone();
-            cloned.Battle = this.Battle.Copy();
-            cloned.BattleId = this.BattleId;
-            cloned.Coordinates = this.Coordinates.ToList<ShipCoordinates>();
-            cloned.ShipId = this.ShipId;
-            cloned.Player = this.Player.Copy();
-            cloned.PlayerName = (string)this.PlayerName.Clone();
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\nerlai\Desktop\out.txt"))
-            {
-                file.WriteLine("Origin hash code: {0}", this.GetHashCode());
-                file.WriteLine("Cloned hash code: {0}", cloned.GetHashCode());
-            }
-            return cloned;
-        }
+        //public Ship CloneShalow() => (Ship)this.MemberwiseClone();
+        //public object ShalowClone()
+        //{
+        //    return (Ship)this.MemberwiseClone();
+        //}
+        //public Ship DeepClone()
+        //{
+        //    Ship cloned = (Ship)this.MemberwiseClone();
+        //    cloned.Battle = this.Battle.Copy();
+        //    cloned.BattleId = this.BattleId;
+        //    cloned.Coordinates = this.Coordinates.ToList<ShipCoordinates>();
+        //    cloned.ShipId = this.ShipId;
+        //    cloned.Player = this.Player.Copy();
+        //    cloned.PlayerName = (string)this.PlayerName.Clone();
+        //    using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\nerlai\Desktop\out.txt"))
+        //    {
+        //        file.WriteLine("Origin hash code: {0}", this.GetHashCode());
+        //        file.WriteLine("Cloned hash code: {0}", cloned.GetHashCode());
+        //    }
+        //    return cloned;
+        //}
         public int ShipId { get; set; }
         public int Size { get; set; }
         public List<ShipCoordinates> Coordinates { get; set; }
