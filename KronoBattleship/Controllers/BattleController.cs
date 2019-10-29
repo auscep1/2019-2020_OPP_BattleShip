@@ -11,6 +11,8 @@ using System;
 using KronoBattleship.DESIGN_PATTERNS.Builder;
 using KronoBattleship.DESIGN_PATTERNS.Facade;
 using KronoBattleship.DESIGN_PATTERNS.Adapter;
+using KronoBattleship.DESIGN_PATTERNS.Command;
+using static KronoBattleship.DESIGN_PATTERNS.Command.Command;
 
 namespace KronoBattleship.Controllers
 {
@@ -174,6 +176,21 @@ namespace KronoBattleship.Controllers
             List<List<char>> list = new List<List<char>>();
             var copy = playerBoard;
             var ships = "acegikmoqs";
+
+            List<ICommand> commands = new List<ICommand>();
+
+            GetExtraLargeShipLocation extraLargeShip = new GetExtraLargeShipLocation();
+            GetLargeShipLocation largeShip = new GetLargeShipLocation();
+            GetNormalShipLocation normalShip = new GetNormalShipLocation();
+            GetSmallShipLocation smallShip = new GetSmallShipLocation();
+            GetExtraSmallShipLocation extraSmallShip = new GetExtraSmallShipLocation();
+
+            commands.Add(extraLargeShip);
+            commands.Add(largeShip);
+            commands.Add(normalShip);
+            commands.Add(smallShip);
+            commands.Add(extraSmallShip);
+
             for (int i = 0; i < copy.Length; i++)
             {
                 if (ships.Contains(copy[i]) && ships.Length > 0)
@@ -187,30 +204,40 @@ namespace KronoBattleship.Controllers
                     switch (copy[i])
                     {
                         case 'a':
-                            endx = isHorizontal ? x + 4 : x;
-                            endy = isHorizontal ? y : y + 4;
+                            List<int> extraLargeShipLocation = commands[0].Execute(isHorizontal, i);
+                            endx = extraLargeShipLocation[0];
+                            endy = extraLargeShipLocation[1];
+                            System.Diagnostics.Debug.WriteLine("Command: Location of extra large ship was found");
+                            break;
+                        case 'm':
+                            List<int> largeShipLocation = commands[1].Execute(isHorizontal, i);
+                            endx = largeShipLocation[0];
+                            endy = largeShipLocation[1];
+                            System.Diagnostics.Debug.WriteLine("Command: Location of large ship was found");
+                            break;
+                        case 'q':
+                            List<int> normalShipLocation = commands[2].Execute(isHorizontal, i);
+                            endx = normalShipLocation[0];
+                            endy = normalShipLocation[1];
+                            System.Diagnostics.Debug.WriteLine("Command: Location of normal ship was found");
+                            break;
+                        case 'i':
+                            List<int> smallShipLocation = commands[3].Execute(isHorizontal, i);
+                            endx = smallShipLocation[0];
+                            endy = smallShipLocation[1];
+                            System.Diagnostics.Debug.WriteLine("Command: Location of small ship was found");
+                            break;
+                        case 'e':
+                            List<int> extraSmallShipLocation = commands[4].Execute(isHorizontal, i);
+                            endx = extraSmallShipLocation[0];
+                            endy = extraSmallShipLocation[1];
+                            System.Diagnostics.Debug.WriteLine("Command: Location of extra small ship was found");
                             break;
                         case 'c':
                             endx = isHorizontal ? x + 4 : x;
                             endy = isHorizontal ? y : y + 4;
                             break;
-                        case 'm':
-                            endx = isHorizontal ? x + 2 : x;
-                            endy = isHorizontal ? y : y + 2;
-                            break;
-                        case 'q':
-                            endx = isHorizontal ? x + 2 : x;
-                            endy = isHorizontal ? y : y + 2;
-                            break;
-                        case 'i':
-                            endx = isHorizontal ? x + 1 : x;
-                            endy = isHorizontal ? y : y + 1;
-                            break;
                         case 'k':
-                            endx = isHorizontal ? x + 1 : x;
-                            endy = isHorizontal ? y : y + 1;
-                            break;
-                        case 'e':
                             endx = isHorizontal ? x + 1 : x;
                             endy = isHorizontal ? y : y + 1;
                             break;

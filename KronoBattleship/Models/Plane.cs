@@ -7,7 +7,7 @@ using System.Web;
 
 namespace KronoBattleship.Models
 {
-    public class Plane : Unit, IPrototype
+    public class Plane : Unit
     {
         public Plane()
         {
@@ -21,10 +21,9 @@ namespace KronoBattleship.Models
             Battle = battle;
             Coordinates = new List<ShipCoordinates>();
         }
-        public Plane CloneShalow() => (Plane)this.Clone();
         public object ShalowClone()
         {
-            return (Plane)this.MemberwiseClone();
+            return (Plane)this.Clone();
         }
         public Plane DeepClone()
         {
