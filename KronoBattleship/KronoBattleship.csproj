@@ -189,6 +189,7 @@
     <Compile Include="Datalayer\ApplicationDbContext.cs" />
     <Compile Include="Datalayer\BattleConfiguration.cs" />
     <Compile Include="Datalayer\UserConfiguration.cs" />
+    <Compile Include="DESIGN_PATTERNS\Adapter\IAdapter.cs" />
     <Compile Include="DESIGN_PATTERNS\Facade\Facade.cs" />
     <Compile Include="DESIGN_PATTERNS\Factory\Factory.cs" />
     <Compile Include="DESIGN_PATTERNS\Factory\Unit.cs" />

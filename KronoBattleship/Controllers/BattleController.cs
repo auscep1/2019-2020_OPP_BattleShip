@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System;
 using KronoBattleship.DESIGN_PATTERNS.Builder;
 using KronoBattleship.DESIGN_PATTERNS.Facade;
+using KronoBattleship.DESIGN_PATTERNS.Adapter;
 
 namespace KronoBattleship.Controllers
 {
@@ -244,9 +245,11 @@ namespace KronoBattleship.Controllers
                     //}
                     //ship.Size = ship.Coordinates.Count;
 
-                    Facade facade = new Facade(currentPlayer, battle, x, endx, y, endy, isHorizontal);
-                    Ship ship = facade.GetShip();
-                    
+                    //Facade facade = new Facade(currentPlayer, battle, x, endx, y, endy, isHorizontal);
+                    IAdapter shipAdapter = new ShipAdapter(currentPlayer, battle, x, endx, y, endy, isHorizontal);
+                    //Ship ship = facade.GetShip();
+                    Ship ship = (Ship)shipAdapter.GetObject();
+
                     //var builder = new ShipBuilder(currentPlayer, battle, x, endx, y, endy, isHorizontal);
                     //builder.BuildBase();
                     //builder.BuildCoordinates();
