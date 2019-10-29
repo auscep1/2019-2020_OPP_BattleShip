@@ -197,9 +197,6 @@
     <Compile Include="DESIGN_PATTERNS\Factory\Unit.cs" />
     <Compile Include="DESIGN_PATTERNS\Builder\Builder.cs" />
     <Compile Include="DESIGN_PATTERNS\Prototype_pattern\Prototype.cs" />
-    <Compile Include="DESIGN_PATTERNS\Strategy\Algorithm.cs" />
-    <Compile Include="DESIGN_PATTERNS\Strategy\AlgorithmFactory.cs" />
-    <Compile Include="DESIGN_PATTERNS\Strategy\IStrategy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

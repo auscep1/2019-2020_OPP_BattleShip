@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace KronoBattleship.DESIGN_PATTERNS.Adapter
 {
-    interface Adapter
+    interface IAdapter
     {
         object GetObject();
     }
-    public class ShipAdapter : Adapter
+    public class ShipAdapter : IAdapter
     {
         private Battle Battle;
         private User Owner;
@@ -36,7 +36,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Adapter
             return facade.GetShip();
         }
     }
-    public class PlaneAdapter : Adapter
+    public class PlaneAdapter : IAdapter
     {
         private Battle Battle;
         private User Owner;
