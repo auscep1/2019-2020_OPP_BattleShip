@@ -22,7 +22,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
         void Reset();
         Ship GetShip();
     }
-    public class AbstractShipBuilder : IShipBuilder
+    public class AbstractShipBuilder
     {
         IShipBuilder _someBuilder;
         public AbstractShipBuilder(IShipBuilder someBuilder)
