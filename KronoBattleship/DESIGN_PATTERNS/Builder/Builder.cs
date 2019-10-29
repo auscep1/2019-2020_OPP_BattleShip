@@ -9,6 +9,9 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
     // https://www.journaldev.com/1425/builder-design-pattern-in-java
     // https://refactoring.guru/design-patterns/builder/csharp/example
 
+
+    //https://www.dotnettricks.com/learn/designpatterns/bridge-design-pattern-dotnet
+
     public interface IShipBuilder
     {
         void BuildBase();
@@ -16,7 +19,30 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
         void BuildSize();
         void Reset();
     }
-    public class ShipBuilder : IShipBuilder
+    public abstract class AbstractShipBuilder : IShipBuilder
+    {
+        Ship _ship;
+        public virtual void BuildBase()
+        {
+            _ship = new Ship();
+        }
+
+        public virtual void BuildCoordinates()
+        {
+            _ship.Coordinates = new List<ShipCoordinates>();
+        }
+
+        public virtual void BuildSize()
+        {
+            _ship.Size = _ship.Coordinates.Count;
+        }
+
+        public virtual void Reset()
+        {
+            _ship = new Ship();
+        }
+    }
+    public class ShipBuilder : AbstractShipBuilder
     {
         private Ship _ship = new Ship();
         private Battle Battle;
@@ -34,18 +60,18 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
             this.isHorizontal = isHorizontall;
             this.Reset();
         }
-        public void Reset()
-        {
-            this._ship = new Ship();
-        }
-        public void BuildBase()
+        //public void Reset()
+        //{
+        //    this._ship = new Ship();
+        //}
+        public override void BuildBase()
         {
             _ship.Battle = Battle;
             _ship.BattleId = Battle.BattleId;
             _ship.Player = Owner;
             _ship.PlayerName = Owner.UserName;
         }
-        public void BuildCoordinates()
+        public override void BuildCoordinates()
         {
             while (x <= endx && y <= endy)
             {
@@ -61,10 +87,10 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
             }
         }
 
-        public void BuildSize()
-        {
-            _ship.Size = _ship.Coordinates.Count;
-        }
+        //public void BuildSize()
+        //{
+        //    _ship.Size = _ship.Coordinates.Count;
+        //}
 
         public Ship GetShip()
         {
