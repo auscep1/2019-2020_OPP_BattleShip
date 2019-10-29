@@ -31,6 +31,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Adapter
         public object GetObject()
         {
             Facade.Facade facade = new Facade.Facade(Owner, Battle, x, endx, y, endy, isHorizontal);
+            System.Diagnostics.Debug.WriteLine("Facade: Object was created");
             return facade.GetShip();
         }
     }
