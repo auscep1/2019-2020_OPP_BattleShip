@@ -12,6 +12,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
 
     //https://www.dotnettricks.com/learn/designpatterns/bridge-design-pattern-dotnet
     //https://www.geeksforgeeks.org/bridge-design-pattern/
+    //https://www.dofactory.com/net/bridge-design-pattern
 
     public interface IShipBuilder
     {
@@ -19,31 +20,40 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
         void BuildCoordinates();
         void BuildSize();
         void Reset();
+        Ship GetShip();
     }
-    public abstract class AbstractShipBuilder : IShipBuilder
+    public class AbstractShipBuilder : IShipBuilder
     {
-        Ship _ship;
-        public virtual void BuildBase()
+        IShipBuilder _someBuilder;
+        public AbstractShipBuilder(IShipBuilder someBuilder)
         {
-            _ship = new Ship();
+            _someBuilder = someBuilder;
+        }
+        public void BuildBase()
+        {
+            _someBuilder.BuildBase();
         }
 
-        public virtual void BuildCoordinates()
+        public void BuildCoordinates()
         {
-            _ship.Coordinates = new List<ShipCoordinates>();
+            _someBuilder.BuildCoordinates();
         }
 
-        public virtual void BuildSize()
+        public void BuildSize()
         {
-            _ship.Size = _ship.Coordinates.Count;
+            _someBuilder.BuildSize();
         }
 
-        public virtual void Reset()
+        public void Reset()
         {
-            _ship = new Ship();
+            _someBuilder.Reset();
+        }
+        public Ship GetShip()
+        {
+            return _someBuilder.GetShip();
         }
     }
-    public class ShipBuilder : AbstractShipBuilder
+    public class ShipBuilder : IShipBuilder
     {
         private Ship _ship = new Ship();
         private Battle Battle;
@@ -61,11 +71,11 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
             this.isHorizontal = isHorizontall;
             this.Reset();
         }
-        //public void Reset()
-        //{
-        //    this._ship = new Ship();
-        //}
-        public override void BuildBase()
+        public void Reset()
+        {
+            this._ship = new Ship();
+        }
+        public void BuildBase()
         {
             _ship.Battle = Battle;
             _ship.BattleId = Battle.BattleId;
@@ -73,7 +83,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
             _ship.PlayerName = Owner.UserName;
             System.Diagnostics.Debug.WriteLine("ShipBuilder: Ship base builded");
         }
-        public override void BuildCoordinates()
+        public void BuildCoordinates()
         {
             while (x <= endx && y <= endy)
             {
@@ -90,7 +100,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
             System.Diagnostics.Debug.WriteLine("ShipBuilder: Ship coordinates builded");
         }
 
-        public override void BuildSize()
+        public void BuildSize()
         {
             _ship.Size = _ship.Coordinates.Count;
             System.Diagnostics.Debug.WriteLine("ShipBuilder: Ship size builded");

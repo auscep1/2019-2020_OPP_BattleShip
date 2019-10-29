@@ -27,7 +27,9 @@ namespace KronoBattleship.DESIGN_PATTERNS.Facade
         }
         public Ship GetShip()
         {
-            var builder = new ShipBuilder(Owner, Battle, x, endx, y, endy, isHorizontal);
+            //var builder = new ShipBuilder(Owner, Battle, x, endx, y, endy, isHorizontal);
+            var shipabstractbuilder = new ShipBuilder(Owner, Battle, x, endx, y, endy, isHorizontal);
+            AbstractShipBuilder builder = new AbstractShipBuilder(shipabstractbuilder);
             builder.BuildBase();
             builder.BuildCoordinates();
             builder.BuildSize();
