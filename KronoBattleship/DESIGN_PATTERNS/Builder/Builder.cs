@@ -11,6 +11,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
 
 
     //https://www.dotnettricks.com/learn/designpatterns/bridge-design-pattern-dotnet
+    //https://www.geeksforgeeks.org/bridge-design-pattern/
 
     public interface IShipBuilder
     {
@@ -70,6 +71,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
             _ship.BattleId = Battle.BattleId;
             _ship.Player = Owner;
             _ship.PlayerName = Owner.UserName;
+            System.Diagnostics.Debug.WriteLine("ShipBuilder: Ship base builded");
         }
         public override void BuildCoordinates()
         {
@@ -85,19 +87,21 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
                     y++;
                 }
             }
+            System.Diagnostics.Debug.WriteLine("ShipBuilder: Ship coordinates builded");
         }
 
-        //public void BuildSize()
-        //{
-        //    _ship.Size = _ship.Coordinates.Count;
-        //}
+        public override void BuildSize()
+        {
+            _ship.Size = _ship.Coordinates.Count;
+            System.Diagnostics.Debug.WriteLine("ShipBuilder: Ship size builded");
+        }
 
         public Ship GetShip()
         {
             Ship result = this._ship;
 
             this.Reset();
-
+            System.Diagnostics.Debug.WriteLine("ShipBuilder: Returning builded ship");
             return result;
         }
     }

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace KronoBattleship.DESIGN_PATTERNS.Adapter
 {
-    interface IAdapter
+    interface Adapter
     {
         object GetObject();
     }
-    public class ShipAdapter : IAdapter
+    public class ShipAdapter : Adapter
     {
         private Battle Battle;
         private User Owner;
@@ -32,10 +32,11 @@ namespace KronoBattleship.DESIGN_PATTERNS.Adapter
         {
             Facade.Facade facade = new Facade.Facade(Owner, Battle, x, endx, y, endy, isHorizontal);
             System.Diagnostics.Debug.WriteLine("Facade: Object was created");
+            System.Diagnostics.Debug.WriteLine("ShipAdapter: Returning created ship");
             return facade.GetShip();
         }
     }
-    public class PlaneAdapter : IAdapter
+    public class PlaneAdapter : Adapter
     {
         private Battle Battle;
         private User Owner;
@@ -55,6 +56,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Adapter
         public object GetObject()
         {
             Factory.PlaneFactory facade = new Factory.PlaneFactory(Owner, Battle, x, endx, y, endy, isHorizontal);
+            System.Diagnostics.Debug.WriteLine("PlaneAdapter: Returning created plane");
             return facade.GetUnit();
         }
     }

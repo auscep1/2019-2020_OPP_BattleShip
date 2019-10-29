@@ -189,7 +189,7 @@
     <Compile Include="Datalayer\ApplicationDbContext.cs" />
     <Compile Include="Datalayer\BattleConfiguration.cs" />
     <Compile Include="Datalayer\UserConfiguration.cs" />
-    <Compile Include="DESIGN_PATTERNS\Adapter\IAdapter.cs" />
+    <Compile Include="DESIGN_PATTERNS\Adapter\Adapter.cs" />
     <Compile Include="DESIGN_PATTERNS\Command\Command.cs" />
     <Compile Include="DESIGN_PATTERNS\Command\ICommand.cs" />
     <Compile Include="DESIGN_PATTERNS\Facade\Facade.cs" />
