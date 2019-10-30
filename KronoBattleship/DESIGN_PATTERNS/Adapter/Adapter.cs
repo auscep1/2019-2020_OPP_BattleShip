@@ -1,4 +1,5 @@
-﻿using KronoBattleship.Models;
+﻿using KronoBattleship.DESIGN_PATTERNS.Factory;
+using KronoBattleship.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,9 +56,15 @@ namespace KronoBattleship.DESIGN_PATTERNS.Adapter
         }
         public object GetObject()
         {
-            Factory.PlaneFactory facade = new Factory.PlaneFactory(Owner, Battle, x, endx, y, endy, isHorizontal);
+            /**auscep1 taisyta 2019-10-30**/
+            PlaneFactory f = new PlaneFactory();
+            var facade = f.GetUnit(1,Owner, Battle, x, endx, y, endy, isHorizontal);
             System.Diagnostics.Debug.WriteLine("PlaneAdapter: Returning created plane");
-            return facade.GetUnit();
+            return facade;
+
+            //Factory.PlaneFactory facade = new Factory.PlaneFactory(Owner, Battle, x, endx, y, endy, isHorizontal);
+            //System.Diagnostics.Debug.WriteLine("PlaneAdapter: Returning created plane");
+            //return facade.GetUnit();
         }
     }
 }

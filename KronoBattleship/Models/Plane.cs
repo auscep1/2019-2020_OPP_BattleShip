@@ -9,9 +9,27 @@ namespace KronoBattleship.Models
 {
     public class Plane : Unit
     {
+        //public int PlaneId { get; set; }
+
+        public int PlaneId { get; set; }
+        //public override int UnitId { get { return PlaneId; } }
+        public override int Size { get; set; }
+        public List<PlaneCoordinates> Coordinates { get; set; }
+        public override string PlayerName { get; set; }
+        public override int BattleId { get; set; }
+
+        public new User Player { get; set; }
+        public new Battle Battle { get; set; }
+
+        public int GetId() { return this.PlaneId; }
+
+        /*temorrary*/
+        public override string ProductName { get { return "It's Plane"; } }
+        public override Unit UnitObj { get { return new Plane(); } }
+
         public Plane()
         {
-            Coordinates = new List<ShipCoordinates>();
+            Coordinates = new List<PlaneCoordinates>();
         }
         public Plane(User owner, Battle battle)
         {
@@ -19,7 +37,7 @@ namespace KronoBattleship.Models
             Player = owner;
             BattleId = battle.BattleId;
             Battle = battle;
-            Coordinates = new List<ShipCoordinates>();
+            Coordinates = new List<PlaneCoordinates>();
         }
         public object ShalowClone()
         {
@@ -30,7 +48,7 @@ namespace KronoBattleship.Models
             Plane cloned = (Plane)this.Clone();
             cloned.Battle = this.Battle.Copy();
             cloned.BattleId = this.BattleId;
-            cloned.Coordinates = this.Coordinates.ToList<ShipCoordinates>();
+            cloned.Coordinates = this.Coordinates.ToList<PlaneCoordinates>();
             cloned.PlaneId = this.PlaneId;
             cloned.Player = this.Player.Copy();
             cloned.PlayerName = (string)this.PlayerName.Clone();
@@ -41,21 +59,5 @@ namespace KronoBattleship.Models
             }
             return cloned;
         }
-        //public int PlaneId { get; set; }
-
-        public int PlaneId { get; set; }
-       // public override int UnitId { get { return PlaneId; } }
-        public override int Size { get; set; }
-        public  override List<ShipCoordinates> Coordinates { get; set; }
-        public override string PlayerName { get; set; }
-        public override int BattleId { get; set; }
-
-        public new User Player { get; set; }
-        public new Battle Battle { get; set; }
-
-        /*temorrary*/
-        public override string ProductName { get { return "It's Plane"; } }
-        public override Unit UnitObj { get { return new Plane(); } }
-
     }
 }

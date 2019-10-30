@@ -43,11 +43,15 @@ namespace KronoBattleship.DESIGN_PATTERNS.Facade
         /// <returns>Plane</returns>
         public Unit GetPlane()
         {
-            PlaneFactory factory = new PlaneFactory(Owner, Battle, x, endx, y, endy, isHorizontal);
-            factory.Base();
-            factory.Coordinates();
-            factory.Size();
-            return factory.GetUnit();
+            PlaneFactory f = new PlaneFactory();
+            var plane = f.GetUnit(1,Owner, Battle, x, endx, y, endy, isHorizontal);
+            return plane;
+            /**auscep1 uzkomentinta 20191030**/
+            //PlaneFactory factory = new PlaneFactory(Owner, Battle, x, endx, y, endy, isHorizontal);
+            //factory.Base();
+            //factory.Coordinates();
+            //factory.Size();
+            //return factory.GetUnit();
         }
     }
 }

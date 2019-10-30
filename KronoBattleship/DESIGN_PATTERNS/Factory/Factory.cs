@@ -11,70 +11,42 @@ namespace KronoBattleship.DESIGN_PATTERNS.Factory
     //https://www.c-sharpcorner.com/article/factory-method-design-pattern-in-c-sharp/
     public abstract class Factory
     {
-        public abstract Unit GetUnit();
-        public abstract void Base();
-        public abstract void Coordinates();
-        public abstract void Size();
-        public abstract void Reset();
+        public abstract Unit GetUnit(int switchToWhichUnit, User ownerr, Battle battle, int xx, int endxx, int yy, int endyy, bool isHorizontall);
+        // public abstract void Base();
+        //public abstract void Coordinates();
+        //public abstract void Size();
+        // public abstract void Reset();
     }
     public class PlaneFactory : Factory
     {
-        private Unit _plane = new Plane();
-        private Battle Battle;
-        private User Owner;
-        private int x, endx, y, endy;
-        private bool isHorizontal;
-        public PlaneFactory(User ownerr, Battle battle, int xx, int endxx, int yy, int endyy, bool isHorizontall)
+        public override Unit GetUnit(int switchToWhichUnit, User ownerr, Battle battle, int x, int endx, int y, int endy, bool isHorizontal)
         {
-            this.Owner = ownerr;
-            this.Battle = battle;
-            this.x = xx;
-            this.endx = endxx;
-            this.y = yy;
-            this.endy = endyy;
-            this.isHorizontal = isHorizontall;
-            this.Reset();
-        }
-
-        public override void Base()
-        {
-            _plane.BattleId = Battle.BattleId;
-            _plane.PlayerName = Owner.UserName;
-
-            _plane.Battle = Battle;
-            _plane.Player = Owner;
-        }
-
-        public override void Coordinates()
-        {
-            while (x <= endx && y <= endy)
+            switch (switchToWhichUnit)
             {
-                _plane.Coordinates.Add(new ShipCoordinates(x, y, _plane as Plane));
-                if (isHorizontal)
-                {
-                    x++;
-                }
-                else
-                {
-                    y++;
-                }
+                case 1:
+                    Plane obj = new Plane(ownerr, battle);
+                    while (x <= endx && y <= endy)
+                    {
+                        obj.Coordinates.Add(new PlaneCoordinates(x, y, obj));
+                        if (isHorizontal)
+                        {
+                            x++;
+                        }
+                        else
+                        {
+                            y++;
+                        }
+                    }
+                    obj.Size = obj.Coordinates.Count;
+                    System.Diagnostics.Debug.WriteLine("PlaneFactory.GetUnit: Plane created");
+                    return obj;
+                default:
+                     return new Plane();
             }
         }
 
-        public override Unit GetUnit()
-        {
-            return new Plane(Owner, Battle);
-        }
 
-        public override void Reset()
-        {
-            this._plane = new Plane();
-        }
 
-        public override void Size()
-        {
-            _plane.Size = _plane.Coordinates.Count;
-        }
         /**public static Unit GetUnit(int id)
         {
             switch (id)

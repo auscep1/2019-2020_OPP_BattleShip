@@ -221,17 +221,9 @@
     <Compile Include="Migrations\201605232046258_RowVersion.Designer.cs">
       <DependentUpon>201605232046258_RowVersion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910151145054_addedShips.cs" />
-    <Compile Include="Migrations\201910151145054_addedShips.Designer.cs">
-      <DependentUpon>201910151145054_addedShips.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201910151146052_addedShi.cs" />
-    <Compile Include="Migrations\201910151146052_addedShi.Designer.cs">
-      <DependentUpon>201910151146052_addedShi.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201910151329386_shipType.cs" />
-    <Compile Include="Migrations\201910151329386_shipType.Designer.cs">
-      <DependentUpon>201910151329386_shipType.cs</DependentUpon>
+    <Compile Include="Migrations\201910301000418_planecoordinates.cs" />
+    <Compile Include="Migrations\201910301000418_planecoordinates.designer.cs">
+      <DependentUpon>201910301000418_planecoordinates.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -240,6 +232,7 @@
     <Compile Include="Models\ConnectionMapping.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Plane.cs" />
+    <Compile Include="Models\PlaneCoordinates.cs" />
     <Compile Include="Models\Ship.cs" />
     <Compile Include="Models\ShipCoordinates.cs" />
     <Compile Include="Models\User.cs" />
@@ -468,14 +461,8 @@
     <EmbeddedResource Include="Migrations\201605232046258_RowVersion.resx">
       <DependentUpon>201605232046258_RowVersion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910151145054_addedShips.resx">
-      <DependentUpon>201910151145054_addedShips.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910151146052_addedShi.resx">
-      <DependentUpon>201910151146052_addedShi.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910151329386_shipType.resx">
-      <DependentUpon>201910151329386_shipType.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910301000418_planecoordinates.resx">
+      <DependentUpon>201910301000418_planecoordinates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

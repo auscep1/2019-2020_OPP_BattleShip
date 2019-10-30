@@ -7,18 +7,18 @@ namespace KronoBattleship.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class shipType : IMigrationMetadata
+    public sealed partial class Battleready : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(shipType));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Battleready));
         
         string IMigrationMetadata.Id
         {
-            get { return "201910151329386_shipType"; }
+            get { return "201605221503487_Battle ready"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target
