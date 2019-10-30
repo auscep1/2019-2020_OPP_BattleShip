@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using KronoBattleship.DESIGN_PATTERNS.Factory;
@@ -24,27 +25,30 @@ namespace KronoBattleship.DESIGN_PATTERNS.Factory
             switch (switchToWhichUnit)
             {
                 case 1:
-                    Plane obj = new Plane(ownerr, battle);
-                    while (x <= endx && y <= endy)
-                    {
-                        obj.Coordinates.Add(new PlaneCoordinates(x, y, obj));
-                        if (isHorizontal)
-                        {
-                            x++;
-                        }
-                        else
-                        {
-                            y++;
-                        }
-                    }
-                    obj.Size = obj.Coordinates.Count;
-                    System.Diagnostics.Debug.WriteLine("PlaneFactory.GetUnit: Plane created");
-                    return obj;
+                    return CreatePlane(ownerr, battle, x, endx, y, endy, isHorizontal);
                 default:
-                     return new Plane();
+                     return null;
             }
         }
-
+        private Unit CreatePlane(User ownerr, Battle battle, int x, int endx, int y, int endy, bool isHorizontal)
+        {
+            Unit obj = new Plane(ownerr, battle);
+            while (x <= endx && y <= endy)
+            {
+                obj.Coordinates.Add(new PlaneCoordinates(x, y, obj as Plane));
+                if (isHorizontal)
+                {
+                    x++;
+                }
+                else
+                {
+                    y++;
+                }
+            }
+            obj.Size = obj.Coordinates.Count;
+            System.Diagnostics.Debug.WriteLine("PlaneFactory.GetUnit: Plane created: "+obj.ProductName);
+            return obj;
+        }
 
 
         /**public static Unit GetUnit(int id)

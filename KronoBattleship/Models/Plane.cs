@@ -7,30 +7,35 @@ using System.Web;
 
 namespace KronoBattleship.Models
 {
+    /// <summary>
+    /// Plane class
+    /// </summary>
     public class Plane : Unit
     {
-        //public int PlaneId { get; set; }
-
         public int PlaneId { get; set; }
-        //public override int UnitId { get { return PlaneId; } }
         public override int Size { get; set; }
-        public List<PlaneCoordinates> Coordinates { get; set; }
+        public override List<PlaneCoordinates> Coordinates { get; set; }
         public override string PlayerName { get; set; }
         public override int BattleId { get; set; }
 
         public new User Player { get; set; }
         public new Battle Battle { get; set; }
 
-        public int GetId() { return this.PlaneId; }
-
-        /*temorrary*/
-        public override string ProductName { get { return "It's Plane"; } }
+        public override string ProductName { get { return "It's Plane id"; } }
         public override Unit UnitObj { get { return new Plane(); } }
 
+        /// <summary>
+        /// Plane constructor
+        /// </summary>
         public Plane()
         {
             Coordinates = new List<PlaneCoordinates>();
         }
+        /// <summary>
+        /// Plane constructor
+        /// </summary>
+        /// <param name="owner">User</param>
+        /// <param name="battle">Battle</param>
         public Plane(User owner, Battle battle)
         {
             PlayerName = owner.UserName;

@@ -14,15 +14,16 @@ namespace KronoBattleship.DESIGN_PATTERNS.Factory
 			return this.MemberwiseClone();
 		}
 
-		public abstract Unit UnitObj { get; } //temporrary
-		public abstract string ProductName { get; } //temporrary
-
 		public abstract int Size { get; set; }
-		//public abstract List<PlaneCoordinates> Coordinates { get; set; }
+		public abstract List<PlaneCoordinates> Coordinates { get; set; }
 		public abstract string PlayerName { get; set; }
 		public abstract int BattleId { get; set; }
 
 		public virtual User Player { get; set; }
 		public virtual Battle Battle { get; set; }
-	}
+
+
+        public abstract Unit UnitObj { get; } //temporrary
+        public abstract string ProductName { get; } //temporrary
+    }
 }
