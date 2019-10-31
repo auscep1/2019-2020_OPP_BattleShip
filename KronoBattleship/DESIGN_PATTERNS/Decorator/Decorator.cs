@@ -5,6 +5,8 @@ using System.Web;
 
 namespace KronoBattleship.DESIGN_PATTERNS.Decorator
 {
+    //https://www.codeproject.com/Articles/479635/UnderstandingplusandplusImplementingplusDecoratorp
+
     public interface ISizeComponent
     {
         string GetName();
