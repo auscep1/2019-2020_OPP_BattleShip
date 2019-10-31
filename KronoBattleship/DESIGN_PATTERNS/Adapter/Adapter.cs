@@ -10,7 +10,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Adapter
 {
     interface IAdapter
     {
-        object GetObject();
+        object GetObject(int type);
     }
     public class ShipAdapter : IAdapter
     {
@@ -29,7 +29,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Adapter
             endy = endyy;
             isHorizontal = isHorizontall;
         }
-        public object GetObject()
+        public object GetObject(int type)
         {
             Facade.Facade facade = new Facade.Facade(Owner, Battle, x, endx, y, endy, isHorizontal);
             System.Diagnostics.Debug.WriteLine("Facade: Object was created");
@@ -54,11 +54,11 @@ namespace KronoBattleship.DESIGN_PATTERNS.Adapter
             endy = endyy;
             isHorizontal = isHorizontall;
         }
-        public object GetObject()
+        public object GetObject(int type)
         {
             /**auscep1 taisyta 2019-10-30**/
             PlaneFactory f = new PlaneFactory();
-            var facade = f.GetUnit(1,Owner, Battle, x, endx, y, endy, isHorizontal);
+            var facade = f.GetUnit(1,Owner, Battle, x, endx, y, endy, isHorizontal, type);
             System.Diagnostics.Debug.WriteLine("PlaneAdapter: Returning created plane");
             return facade;
 

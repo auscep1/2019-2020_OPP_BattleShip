@@ -41,10 +41,10 @@ namespace KronoBattleship.DESIGN_PATTERNS.Facade
         /// Returns new Plane
         /// </summary>
         /// <returns>Plane</returns>
-        public Unit GetPlane()
+        public Unit GetPlane(int type)
         {
             PlaneFactory f = new PlaneFactory();
-            var plane = f.GetUnit(1,Owner, Battle, x, endx, y, endy, isHorizontal);
+            var plane = f.GetUnit(1,Owner, Battle, x, endx, y, endy, isHorizontal, type);
             return plane;
             /**auscep1 uzkomentinta 20191030**/
             //PlaneFactory factory = new PlaneFactory(Owner, Battle, x, endx, y, endy, isHorizontal);

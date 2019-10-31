@@ -192,6 +192,7 @@
     <Compile Include="DESIGN_PATTERNS\Adapter\Adapter.cs" />
     <Compile Include="DESIGN_PATTERNS\Command\Command.cs" />
     <Compile Include="DESIGN_PATTERNS\Command\ICommand.cs" />
+    <Compile Include="DESIGN_PATTERNS\Decorator\Decorator.cs" />
     <Compile Include="DESIGN_PATTERNS\Facade\Facade.cs" />
     <Compile Include="DESIGN_PATTERNS\Factory\Factory.cs" />
     <Compile Include="DESIGN_PATTERNS\Factory\Unit.cs" />

@@ -1,4 +1,5 @@
-﻿using KronoBattleship.DESIGN_PATTERNS.Factory;
+﻿using KronoBattleship.DESIGN_PATTERNS.Decorator;
+using KronoBattleship.DESIGN_PATTERNS.Factory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +26,13 @@ namespace KronoBattleship.Models
         /// </summary>
         public PlaneCoordinates() { }
 
-       /// <summary>
-       /// Plane Coordinates constructor
-       /// </summary>
-       /// <param name="xx">x coordinat</param>
-       /// <param name="yy">y coordinate</param>
-       /// <param name="plane">Plane object</param>
-       public PlaneCoordinates(int xx, int yy, Plane plane)
+        /// <summary>
+        /// Plane Coordinates constructor
+        /// </summary>
+        /// <param name="xx">x coordinat</param>
+        /// <param name="yy">y coordinate</param>
+        /// <param name="plane">Plane object</param>
+        public PlaneCoordinates(int xx, int yy, Plane plane)
         {
             Plane = plane;
             PlaneId = plane.PlaneId;

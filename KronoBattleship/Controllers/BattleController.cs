@@ -283,7 +283,7 @@ namespace KronoBattleship.Controllers
 					//Facade facade = new Facade(currentPlayer, battle, x, endx, y, endy, isHorizontal);
 					IAdapter shipAdapter = new ShipAdapter(currentPlayer, battle, x, endx, y, endy, isHorizontal);
 					//Ship ship = facade.GetShip();
-					Ship ship = (Ship)shipAdapter.GetObject();
+					Ship ship = (Ship)shipAdapter.GetObject(0);
 
 					//var builder = new ShipBuilder(currentPlayer, battle, x, endx, y, endy, isHorizontal);
 					//builder.BuildBase();
@@ -301,14 +301,17 @@ namespace KronoBattleship.Controllers
 					int endy = 0;
 
 					bool isHorizontal = i < copy.Length - 1 && copy[i + 1] == copy[i] ? true : false;
-					switch (copy[i])
+                    int type=0;
+                    switch (copy[i])
 					{
 						case 'o':  /**vienvietis**/
+                            type = 1;
 							isHorizontal = true;
-							endx = x;
+                            endx = x;
 							endy = y;
 							break;
 						case 's':
+                            type = 2;
 							endx = isHorizontal ? x + 1 : x;
 							endy = isHorizontal ? y : y + 1;
 							break;
@@ -316,7 +319,7 @@ namespace KronoBattleship.Controllers
 					planes = planes.Remove(planes.IndexOf(copy[i]), 1);
 
 					Facade facade = new Facade(currentPlayer, battle, x, endx, y, endy, isHorizontal);
-					var plane = facade.GetPlane();
+					var plane = facade.GetPlane(type);
 
 					db.Planes.Add(plane as Plane);
 				}

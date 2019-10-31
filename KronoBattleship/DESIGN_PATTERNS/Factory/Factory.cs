@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using KronoBattleship.DESIGN_PATTERNS.Decorator;
 using KronoBattleship.DESIGN_PATTERNS.Factory;
 using KronoBattleship.Models;
 
@@ -12,44 +13,84 @@ namespace KronoBattleship.DESIGN_PATTERNS.Factory
     //https://www.c-sharpcorner.com/article/factory-method-design-pattern-in-c-sharp/
     public abstract class Factory
     {
-        public abstract Unit GetUnit(int switchToWhichUnit, User ownerr, Battle battle, int xx, int endxx, int yy, int endyy, bool isHorizontall);
-        // public abstract void Base();
-        //public abstract void Coordinates();
-        //public abstract void Size();
-        // public abstract void Reset();
+        public abstract Unit GetUnit(int switchToWhichUnit, User ownerr, Battle battle, int xx, int endxx, int yy, int endyy, bool isHorizontall, int type);
     }
     public class PlaneFactory : Factory
     {
-        public override Unit GetUnit(int switchToWhichUnit, User ownerr, Battle battle, int x, int endx, int y, int endy, bool isHorizontal)
+        /// <summary>
+        /// Get Unit object
+        /// </summary>
+        /// <param name="switchToWhichUnit"></param>
+        /// <param name="ownerr"></param>
+        /// <param name="battle"></param>
+        /// <param name="x"></param>
+        /// <param name="endx"></param>
+        /// <param name="y"></param>
+        /// <param name="endy"></param>
+        /// <param name="isHorizontal"></param>
+        /// <returns></returns>
+        public override Unit GetUnit(int switchToWhichUnit, User ownerr, Battle battle, int x, int endx, int y, int endy, bool isHorizontal, int type)
         {
             switch (switchToWhichUnit)
             {
                 case 1:
-                    return CreatePlane(ownerr, battle, x, endx, y, endy, isHorizontal);
+                    return CreatePlane(ownerr, battle, x, endx, y, endy, isHorizontal, type);
                 default:
-                     return null;
+                    return null;
             }
         }
-        private Unit CreatePlane(User ownerr, Battle battle, int x, int endx, int y, int endy, bool isHorizontal)
+        /// <summary>
+        /// Create Plane object
+        /// </summary>
+        /// <param name="ownerr"></param>
+        /// <param name="battle"></param>
+        /// <param name="x"></param>
+        /// <param name="endx"></param>
+        /// <param name="y"></param>
+        /// <param name="endy"></param>
+        /// <param name="isHorizontal"></param>
+        /// <returns></returns>
+        private Unit CreatePlane(User ownerr, Battle battle, int x, int endx, int y, int endy, bool isHorizontal, int type)
         {
             Unit obj = new Plane(ownerr, battle);
-            while (x <= endx && y <= endy)
+            /**decorator implementation**/
+            obj.Coordinates.Add(new PlaneCoordinates(x, y, obj as Plane));
+            SizeDecorator sizeDecorator;
+            SizeBase sizeBase = new SizeBase();
+            switch (type)
             {
-                obj.Coordinates.Add(new PlaneCoordinates(x, y, obj as Plane));
-                if (isHorizontal)
-                {
-                    x++;
-                }
-                else
-                {
-                    y++;
-                }
+                case 1: //one sizer Plane
+                    break;
+                case 2: //two sizer Plane
+                    sizeDecorator = new SizeDecorator(sizeBase, x);
+                    System.Diagnostics.Debug.WriteLine("{0} {1}", sizeDecorator.GetResizer(), sizeDecorator.GetName());
+                    obj.Coordinates.Add(new PlaneCoordinates(sizeDecorator.GetResizer(), y, obj as Plane));
+                    break;
+                case 3: //three sizer Plane
+                    sizeDecorator = new SizeDecorator(sizeBase, x);
+                    System.Diagnostics.Debug.WriteLine("{0} {1}", sizeDecorator.GetResizer(), sizeDecorator.GetName());
+                    obj.Coordinates.Add(new PlaneCoordinates(sizeDecorator.GetResizer(), y, obj as Plane));
+                    sizeDecorator = new SizeDecorator(sizeBase, sizeDecorator.GetResizer());
+                    System.Diagnostics.Debug.WriteLine("{0} {1}", sizeDecorator.GetResizer(), sizeDecorator.GetName());
+                    obj.Coordinates.Add(new PlaneCoordinates(sizeDecorator.GetResizer(), y, obj as Plane));
+                    break;
             }
+            //while (x <= endx && y <= endy)
+            //{
+            //    obj.Coordinates.Add(new PlaneCoordinates(x, y, obj as Plane));
+            //    if (isHorizontal)
+            //    {
+            //        x++;
+            //    }
+            //    else
+            //    {
+            //        y++;
+            //    }
+            //}
             obj.Size = obj.Coordinates.Count;
-            System.Diagnostics.Debug.WriteLine("PlaneFactory.GetUnit: Plane created: "+obj.ProductName);
+            System.Diagnostics.Debug.WriteLine("PlaneFactory.GetUnit: Plane created: " + obj.ProductName);
             return obj;
         }
-
 
         /**public static Unit GetUnit(int id)
         {
