@@ -34,6 +34,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Factory
             switch (switchToWhichUnit)
             {
                 case 1:
+                    System.Diagnostics.Debug.WriteLine("PlaneFactory : Factory: Get Unit.");
                     return CreatePlane(ownerr, battle, x, endx, y, endy, isHorizontal, type);
                 default:
                     return null;
@@ -60,19 +61,22 @@ namespace KronoBattleship.DESIGN_PATTERNS.Factory
             switch (type)
             {
                 case 1: //one sizer Plane
+                    System.Diagnostics.Debug.WriteLine("PlaneFactory : Factory. One sizer Unit created.");
                     break;
                 case 2: //two sizer Plane
                     sizeDecorator = new SizeDecorator(sizeBase, x);
-                    System.Diagnostics.Debug.WriteLine("{0} {1}", sizeDecorator.GetResizer(), sizeDecorator.GetName());
+                    System.Diagnostics.Debug.WriteLine("{0} {1}", "PlaneFactory : Factory/Decorator. size added.", sizeDecorator.GetName());
                     obj.Coordinates.Add(new PlaneCoordinates(sizeDecorator.GetResizer(), y, obj as Plane));
+                    System.Diagnostics.Debug.WriteLine("PlaneFactory : Factory. Two sizer Unit created.");
                     break;
                 case 3: //three sizer Plane
                     sizeDecorator = new SizeDecorator(sizeBase, x);
-                    System.Diagnostics.Debug.WriteLine("{0} {1}", sizeDecorator.GetResizer(), sizeDecorator.GetName());
+                    System.Diagnostics.Debug.WriteLine("{0} {1}", "PlaneFactory : Factory/Decorator. size added.", sizeDecorator.GetName());
                     obj.Coordinates.Add(new PlaneCoordinates(sizeDecorator.GetResizer(), y, obj as Plane));
                     sizeDecorator = new SizeDecorator(sizeBase, sizeDecorator.GetResizer());
-                    System.Diagnostics.Debug.WriteLine("{0} {1}", sizeDecorator.GetResizer(), sizeDecorator.GetName());
+                    System.Diagnostics.Debug.WriteLine("{0} {1}", "PlaneFactory : Factory/Decorator. size added.", sizeDecorator.GetName());
                     obj.Coordinates.Add(new PlaneCoordinates(sizeDecorator.GetResizer(), y, obj as Plane));
+                    System.Diagnostics.Debug.WriteLine("PlaneFactory : Factory. Three sizer Unit created.");
                     break;
             }
             //while (x <= endx && y <= endy)
@@ -88,7 +92,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Factory
             //    }
             //}
             obj.Size = obj.Coordinates.Count;
-            System.Diagnostics.Debug.WriteLine("PlaneFactory.GetUnit: Plane created: " + obj.ProductName);
+            System.Diagnostics.Debug.WriteLine(obj.ProductName);
             return obj;
         }
 

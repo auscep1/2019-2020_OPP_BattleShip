@@ -23,6 +23,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Decorator
         }
         public int GetResizerX(int x)
         {
+            System.Diagnostics.Debug.WriteLine("{0} {1}", "SizeBase : ISizeComponent. Size get", this.name);
             return x+resizerBy;
         }
     }
@@ -44,6 +45,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Decorator
         }
         int ISizeComponent.GetResizerX(int x)
         {
+            System.Diagnostics.Debug.WriteLine("{0} {1}", "Decorator : ISizeComponent. Size get", this.name);
             return resizerBy + baseSizeComponent.GetResizerX(x);
         }
     }
@@ -56,6 +58,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Decorator
         }
         public int GetResizer()
         {
+            System.Diagnostics.Debug.WriteLine("{0} {1}", "SizeDecorator : Decorator. Size get", this.name);
             return this.resizerBy;
         }
         public string GetName()

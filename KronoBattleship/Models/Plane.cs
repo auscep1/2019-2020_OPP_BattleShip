@@ -21,7 +21,7 @@ namespace KronoBattleship.Models
         public new User Player { get; set; }
         public new Battle Battle { get; set; }
 
-        public override string ProductName { get { return "It's Plane id"; } }
+        public override string ProductName { get { return "It's Plane!"; } }
         public override Unit UnitObj { get { return new Plane(); } }
 
         /// <summary>
