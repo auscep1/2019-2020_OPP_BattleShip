@@ -18,7 +18,14 @@ namespace KronoBattleship
             //var user1 = new User();
             //user1.UserName = "123";
             //var plane = new Plane(user, new Battle(user, user1));
-            //plane.DeepClone();
+            //Plane deepCopy = plane.DeepClone();
+            //Plane shaloowCopy = (Plane)plane.ShallowClone();
+            //System.Diagnostics.Debug.WriteLine("ShalowClone()");
+            //System.Diagnostics.Debug.WriteLine("Origin hash code: {0}", plane.GetHashCode());
+            //System.Diagnostics.Debug.WriteLine("Cloned hash code: {0}", shaloowCopy.GetHashCode());
+            //System.Diagnostics.Debug.WriteLine("DeepClone()");
+            //System.Diagnostics.Debug.WriteLine("Origin hash code: {0}", plane.GetHashCode());
+            //System.Diagnostics.Debug.WriteLine("Cloned hash code: {0}", deepCopy.GetHashCode());
         }
     }
 }

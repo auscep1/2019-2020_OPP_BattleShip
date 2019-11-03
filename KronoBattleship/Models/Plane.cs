@@ -44,9 +44,13 @@ namespace KronoBattleship.Models
             Battle = battle;
             Coordinates = new List<PlaneCoordinates>();
         }
-        public object ShalowClone()
+        public object ShallowClone()
         {
-            return (Plane)this.Clone();
+            Plane cloned = (Plane)this.Clone();
+            //System.Diagnostics.Debug.WriteLine("ShalowClone() Coordinates");
+            //System.Diagnostics.Debug.WriteLine("Origin.Coordinates hash code: {0}", this.Coordinates.GetHashCode());
+            //System.Diagnostics.Debug.WriteLine("Cloned.Coordinates hash code: {0}", cloned.Coordinates.GetHashCode());
+            return cloned;
         }
         public Plane DeepClone()
         {
@@ -57,11 +61,9 @@ namespace KronoBattleship.Models
             cloned.PlaneId = this.PlaneId;
             cloned.Player = this.Player.Copy();
             cloned.PlayerName = (string)this.PlayerName.Clone();
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\nerlai\Desktop\out.txt"))
-            {
-                file.WriteLine("Origin hash code: {0}", this.GetHashCode());
-                file.WriteLine("Cloned hash code: {0}", cloned.GetHashCode());
-            }
+            //System.Diagnostics.Debug.WriteLine("DeepClone() Coordinates");
+            //System.Diagnostics.Debug.WriteLine("Origin.Coordinates hash code: {0}", this.Coordinates.GetHashCode());
+            //System.Diagnostics.Debug.WriteLine("Cloned.Coordinates hash code: {0}", cloned.Coordinates.GetHashCode());
             return cloned;
         }
     }
