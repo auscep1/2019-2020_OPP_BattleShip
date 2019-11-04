@@ -28,6 +28,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Builder
         public AbstractShipBuilder(IShipBuilder someBuilder)
         {
             _someBuilder = someBuilder;
+            System.Diagnostics.Debug.WriteLine("AbstractShipBuilder: bridge between " + this.GetType().Name + " and " + someBuilder.GetType().Name);
         }
         public void BuildBase()
         {

@@ -319,7 +319,10 @@ namespace KronoBattleship.Controllers
 					planes = planes.Remove(planes.IndexOf(copy[i]), 1);
 
 					Facade facade = new Facade(currentPlayer, battle, x, endx, y, endy, isHorizontal);
-					var plane = facade.GetPlane(type);
+                    IAdapter planeAdapter = new PlaneAdapter(currentPlayer, battle, x, endx, y, endy, isHorizontal);
+                    //Ship ship = facade.GetShip();
+                    Plane plane = (Plane)planeAdapter.GetObject(0);
+                    //var plane = facade.GetPlane(type);
 
 					db.Planes.Add(plane as Plane);
 				}
