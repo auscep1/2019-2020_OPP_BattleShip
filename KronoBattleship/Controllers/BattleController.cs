@@ -12,6 +12,7 @@ using KronoBattleship.DESIGN_PATTERNS.Builder;
 using KronoBattleship.DESIGN_PATTERNS.Facade;
 using KronoBattleship.DESIGN_PATTERNS.Adapter;
 using KronoBattleship.DESIGN_PATTERNS.Command;
+using KronoBattleship.DESIGN_PATTERNS.Template;
 using static KronoBattleship.DESIGN_PATTERNS.Command.Command;
 
 
@@ -187,148 +188,17 @@ namespace KronoBattleship.Controllers
             var currentUserName = getCurrentUserName();
 
             // ====== PRIDETA LOGIKA ======
-            var currentPlayer = db.Users.FirstOrDefault(x => x.UserName == currentUserName);
             //LAIVAI: a5, m3, q3, i2, e2, LEKTUVAI:o1, s2 ----- coskg (viena grupe vertikali kita horizontali
-            List<List<char>> list = new List<List<char>>();
-            var copy = playerBoard;
-            var ships = "acegikmq";
-			var planes = "os";
+           // List<List<char>> list = new List<List<char>>();
 
-			List<ICommand> commands = new List<ICommand>();
 
-            GetExtraLargeShipLocation extraLargeShip = new GetExtraLargeShipLocation();
-            GetLargeShipLocation largeShip = new GetLargeShipLocation();
-            GetNormalShipLocation normalShip = new GetNormalShipLocation();
-            GetSmallShipLocation smallShip = new GetSmallShipLocation();
-            GetExtraSmallShipLocation extraSmallShip = new GetExtraSmallShipLocation();
+            //>>>>>>>>>>>>>>>>>---iskelta i Template 2019-11-12
+            Client.ClientCode(new TemplateShips(), battleId, playerBoard);
+            Client.ClientCode(new TemplatePlanes(), battleId, playerBoard);
+            //------<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-            commands.Add(extraLargeShip);
-            commands.Add(largeShip);
-            commands.Add(normalShip);
-            commands.Add(smallShip);
-            commands.Add(extraSmallShip);
-
-			for (int i = 0; i < copy.Length; i++)
-			{
-				if (ships.Contains(copy[i]) && ships.Length > 0)
-				{
-					var x = i % 10;
-					var y = i / 10;
-					int endx = 0;
-					int endy = 0;
-
-					bool isHorizontal = i < copy.Length - 1 && copy[i + 1] == copy[i] ? true : false;
-					switch (copy[i])
-					{
-						case 'a':
-							List<int> extraLargeShipLocation = commands[0].Execute(isHorizontal, i);
-							endx = extraLargeShipLocation[0];
-							endy = extraLargeShipLocation[1];
-							System.Diagnostics.Debug.WriteLine("Command: Location of extra large ship was found");
-							break;
-						case 'm':
-							List<int> largeShipLocation = commands[1].Execute(isHorizontal, i);
-							endx = largeShipLocation[0];
-							endy = largeShipLocation[1];
-							System.Diagnostics.Debug.WriteLine("Command: Location of large ship was found");
-							break;
-						case 'q':
-							List<int> normalShipLocation = commands[2].Execute(isHorizontal, i);
-							endx = normalShipLocation[0];
-							endy = normalShipLocation[1];
-							System.Diagnostics.Debug.WriteLine("Command: Location of normal ship was found");
-							break;
-						case 'i':
-							List<int> smallShipLocation = commands[3].Execute(isHorizontal, i);
-							endx = smallShipLocation[0];
-							endy = smallShipLocation[1];
-							System.Diagnostics.Debug.WriteLine("Command: Location of small ship was found");
-							break;
-						case 'e':
-							List<int> extraSmallShipLocation = commands[4].Execute(isHorizontal, i);
-							endx = extraSmallShipLocation[0];
-							endy = extraSmallShipLocation[1];
-							System.Diagnostics.Debug.WriteLine("Command: Location of extra small ship was found");
-							break;
-						case 'c':
-							endx = isHorizontal ? x + 4 : x;
-							endy = isHorizontal ? y : y + 4;
-							break;
-						case 'k':
-							endx = isHorizontal ? x + 1 : x;
-							endy = isHorizontal ? y : y + 1;
-							break;
-						case 'g':
-							endx = isHorizontal ? x + 1 : x;
-							endy = isHorizontal ? y : y + 1;
-							break;
-					}
-					ships = ships.Remove(ships.IndexOf(copy[i]), 1);
-					//Ship ship = new Ship(currentPlayer, battle);
-
-					//while (x <= endx && y <= endy)
-					//{
-					//    ship.Coordinates.Add(new ShipCoordinates(x, y, ship));
-					//    if (isHorizontal)
-					//    {
-					//        x++;
-					//    }
-					//    else
-					//    {
-					//        y++;
-					//    }
-					//}
-					//ship.Size = ship.Coordinates.Count;
-
-					//Facade facade = new Facade(currentPlayer, battle, x, endx, y, endy, isHorizontal);
-					IAdapter shipAdapter = new ShipAdapter(currentPlayer, battle, x, endx, y, endy, isHorizontal);
-					//Ship ship = facade.GetShip();
-					Ship ship = (Ship)shipAdapter.GetObject(0);
-
-					//var builder = new ShipBuilder(currentPlayer, battle, x, endx, y, endy, isHorizontal);
-					//builder.BuildBase();
-					//builder.BuildCoordinates();
-					//builder.BuildSize();
-					//Ship ship = builder.GetShip();
-
-					db.Ships.Add(ship);					
-				}
-				if (planes.Contains(copy[i]) && planes.Length > 0)
-				{
-					var x = i % 10;
-					var y = i / 10;
-					int endx = 0;
-					int endy = 0;
-
-					bool isHorizontal = i < copy.Length - 1 && copy[i + 1] == copy[i] ? true : false;
-                    int type=0;
-                    switch (copy[i])
-					{
-						case 'o':  /**vienvietis**/
-                            type = 1;
-							isHorizontal = true;
-                            endx = x;
-							endy = y;
-							break;
-						case 's':
-                            type = 2;
-							endx = isHorizontal ? x + 1 : x;
-							endy = isHorizontal ? y : y + 1;
-							break;
-					}
-					planes = planes.Remove(planes.IndexOf(copy[i]), 1);
-
-					Facade facade = new Facade(currentPlayer, battle, x, endx, y, endy, isHorizontal);
-                    IAdapter planeAdapter = new PlaneAdapter(currentPlayer, battle, x, endx, y, endy, isHorizontal);
-                    //Ship ship = facade.GetShip();
-                    Plane plane = (Plane)planeAdapter.GetObject(0);
-                    //var plane = facade.GetPlane(type);
-
-					db.Planes.Add(plane as Plane);
-				}
-			}
             // ====== end PRIDETA LOGIKA ======
-            
+
 
             //var db = new ApplicationDbContext();
             //Battle battle = db.Battles.Find(battleId);

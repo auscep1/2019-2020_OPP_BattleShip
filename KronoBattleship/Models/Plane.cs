@@ -1,5 +1,6 @@
 ﻿using KronoBattleship.DESIGN_PATTERNS.Factory;
 using KronoBattleship.DESIGN_PATTERNS.Prototype_pattern;
+using KronoBattleship.DESIGN_PATTERNS.Template;
 using System;
 using System.Collections.Generic;
 using System.Linq;
