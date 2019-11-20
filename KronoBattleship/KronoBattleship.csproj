@@ -197,6 +197,7 @@
     <Compile Include="DESIGN_PATTERNS\Factory\Factory.cs" />
     <Compile Include="DESIGN_PATTERNS\Factory\Unit.cs" />
     <Compile Include="DESIGN_PATTERNS\Builder\Builder.cs" />
+    <Compile Include="DESIGN_PATTERNS\Interpreter\Interpreter.cs" />
     <Compile Include="DESIGN_PATTERNS\Prototype_pattern\Prototype.cs" />
     <Compile Include="DESIGN_PATTERNS\Proxy\Proxy.cs" />
     <Compile Include="DESIGN_PATTERNS\Template\Template.cs" />
