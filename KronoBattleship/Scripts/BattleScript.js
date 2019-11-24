@@ -119,6 +119,7 @@ function setBoardPlacement() {
                 battleJson.PlayerBoard = boardString;
                 battleJson.EnemyBoard = e.EnemyBoard;
                 battleHub.server.callFunction(battleJson.EnemyName, battleJson.EnemyBoard === "" ? "enemyReady" : "readyToAttack");
+                
             },
             error: function (e) {
                 console.log('Error on ready ' + e);

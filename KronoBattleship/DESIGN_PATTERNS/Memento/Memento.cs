@@ -14,7 +14,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Memento
 
         public string SetStateFree()
         {
-            o.State = ":("; //set player status to free
+            o.State = "Waiting :("; //set player status to free
             c.Memento = o.CreateMemento(); //save players status safe
             return o.State;
         }
