@@ -22,7 +22,7 @@ var playerReady = function () {
 }
 
 var ships = [["aircraft", "aircraftV", "destroyer1", "destroyer1V", "destroyer2", "destroyer2V", "cruiser1", /**"cruiser1V"**/"plane1", "cruiser2", /**"cruiser2V",**/ "plane2"],
-    ['a', 'c', 'e', 'g', 'i', 'k', 'm', 'o', 'q', 's']];
+['a', 'c', 'e', 'g', 'i', 'k', 'm', 'o', 'q', 's']];
 
 function displayPlayerShips(board) {
     var ignoreChar = "x"
@@ -97,7 +97,7 @@ function setBoardPlacement() {
             var step = getStep(ship);
             var tail = getShipTail(ship);
 
-            for (var i = parseInt(head) ; i <= tail; i += step) {
+            for (var i = parseInt(head); i <= tail; i += step) {
                 boardArray[i] = charFromShipId(shipId);
             }
             boardString = boardArray.join("");
@@ -146,7 +146,7 @@ function getShipSizeById(shipId) {
     }
     else if (shipId.indexOf("plane1") > -1) {
         size = 1;
-    }else {
+    } else {
         size = 2;
     }
     return size;
@@ -234,7 +234,7 @@ function isValidPosition(ship) {
     var head = getShipAppendedPosition(ship);
     var shipSize = getShipSize(ship);
     return (isHorizontal(ship) && getShipTailCalculated(head, shipSize, 10) < 100) ||
-           (isVertical(ship) && ((head % 10) < (getShipTailCalculated(head, shipSize, 1) % 10)));
+        (isVertical(ship) && ((head % 10) < (getShipTailCalculated(head, shipSize, 1) % 10)));
 }
 
 function isVertical(ship) {
@@ -265,10 +265,10 @@ function calculateShipPosition(shipId, pos) {
     }
     else if (shipId.indexOf("cruiser") > -1) {
         headPos = pos - (1 * getStepById(shipId));
-    /** }
-   else if (shipId.indexOf("plane1") > -1) {
-        headPos = pos - (1 * getStepById(shipId));**/
-    }else {
+        /** }
+       else if (shipId.indexOf("plane1") > -1) {
+            headPos = pos - (1 * getStepById(shipId));**/
+    } else {
         headPos = pos;
     }
     return headPos;
@@ -314,8 +314,8 @@ function comparePosition(calculatedPosShipDragged, pos2, size1, size2, step1, st
     if (pos2 != "shipYard") {
         var tailShip1 = getShipTailCalculated(calculatedPosShipDragged, size1, step1);
         var tailShip2 = getShipTailCalculated(pos2, size2, step2);
-        for (var i = parseInt(calculatedPosShipDragged) ; i <= tailShip1; i += step1) {
-            for (var k = parseInt(pos2) ; k <= tailShip2; k += step2) {
+        for (var i = parseInt(calculatedPosShipDragged); i <= tailShip1; i += step1) {
+            for (var k = parseInt(pos2); k <= tailShip2; k += step2) {
                 if (k == i) {
                     return true;
                 }
@@ -535,7 +535,7 @@ $("#btn-giveup").click(function () {
     $.ajax({
         url: "/Battle/GameOver",
         type: "POST",
-        data: { battleId: battleJson.BattleId},
+        data: { battleId: battleJson.BattleId },
         success: function (result) {
             gameOver(false);
             battleHub.server.finishGame(battleJson.EnemyName, true);

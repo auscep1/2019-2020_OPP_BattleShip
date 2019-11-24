@@ -6,27 +6,26 @@ using Microsoft.AspNet.SignalR;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Collections.Generic;
-using System;
-using KronoBattleship.DESIGN_PATTERNS.Builder;
-using KronoBattleship.DESIGN_PATTERNS.Facade;
-using KronoBattleship.DESIGN_PATTERNS.Adapter;
-using KronoBattleship.DESIGN_PATTERNS.Command;
 using KronoBattleship.DESIGN_PATTERNS.Template;
-using static KronoBattleship.DESIGN_PATTERNS.Command.Command;
 using KronoBattleship.DESIGN_PATTERNS.Proxy;
+using KronoBattleship.DESIGN_PATTERNS.Memento;
 
 namespace KronoBattleship.Controllers
 {
     [System.Web.Mvc.Authorize]
     public class BattleController : Controller
     {
+        //>>>>>>>>>>--Memento logic for players state 20191124------------------
+
+        private MementoClient memento = new MementoClient();
+        //-----------------------------------------------------------<<<<<<<<<<<
+
         // GET: Battle/id
         public ActionResult Index(int battleId)
         {
             var db = ApplicationDbContext.GetInstance();
             Battle battle = db.Battles.Find(battleId);
-            var currentUserName = getCurrentUserName();
+            var currentUserName = getCurrentUserName();            
             if (battle != null && (currentUserName.Equals(battle.PlayerName) || currentUserName.Equals(battle.EnemyName)))
             {
                 return View(new BattleViewModel(battle, currentUserName));
@@ -46,7 +45,13 @@ namespace KronoBattleship.Controllers
             if (battle == null)
             {
                 User player = db.Users.Where(n => n.UserName.Equals(playerName)).First();
+                //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
+                player.State = memento.SetStateFree();
+                //---------------------------------------------------------<<<<<<<<<<<<<<
                 User enemy = db.Users.Where(n => n.UserName.Equals(enemyName)).First();
+                //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
+                enemy.State = memento.SetStateFree();
+                //---------------------------------------------------------<<<<<<<<<<<<<<
                 battle = new Battle(player, enemy);
                 db.Battles.Add(battle);
                 db.SaveChanges();
@@ -157,6 +162,15 @@ namespace KronoBattleship.Controllers
 
             battle.PlayerBoard = "";
             battle.EnemyBoard = "";
+            //>>>>>>>>>>>>>>-Memento logic for players state 20191124-----------
+            //-------------------------------------------------------<<<<<<<<<<<
+            battle.Player.State = memento.SetStateFree();
+            battle.Player.State = memento.SetStatePlaying();
+            battle.Player.State = memento.RestoreState();
+            battle.Enemy.State = memento.SetStateFree();
+            battle.Enemy.State = memento.SetStatePlaying();
+            battle.Enemy.State = memento.RestoreState();
+            //-------------------------------------------------------<<<<<<<<<<<
             battle.ActivePlayer = "";
             if (battle.PlayerName.Equals(currentUserName))
             {
@@ -176,12 +190,12 @@ namespace KronoBattleship.Controllers
             }
             db.SaveChanges();
             var planesToRemove = db.Planes.Where(x => x.BattleId == battle.BattleId);
-			foreach (var plane in planesToRemove)
-			{
-				db.Planes.Remove(plane);
-			}
-			// -------- end PRIDETA LOGIKA ------
-			db.SaveChanges();
+            foreach (var plane in planesToRemove)
+            {
+                db.Planes.Remove(plane);
+            }
+            // -------- end PRIDETA LOGIKA ------
+            db.SaveChanges();
         }
 
         [HttpPost]
@@ -193,7 +207,7 @@ namespace KronoBattleship.Controllers
 
             // ====== PRIDETA LOGIKA ======
             //LAIVAI: a5, m3, q3, i2, e2, LEKTUVAI:o1, s2 ----- coskg (viena grupe vertikali kita horizontali
-           // List<List<char>> list = new List<List<char>>();
+            // List<List<char>> list = new List<List<char>>();
 
 
             //>>>>>>>>>>>>>>>>>---iskelta i Template 2019-11-12
@@ -212,15 +226,25 @@ namespace KronoBattleship.Controllers
             {
                 battle.PlayerBoard = playerBoard;
                 enemyBoard = battle.EnemyBoard;
+                //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
+                battle.Player.State = memento.SetStatePlaying();
+                //---------------------------------------------------------<<<<<<<<<<<<<<
                 if (battle.EnemyBoard == "")
+                {
                     battle.ActivePlayer = battle.PlayerName;
+                }
             }
             else
             {
                 battle.EnemyBoard = playerBoard;
                 enemyBoard = battle.PlayerBoard;
+                //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
+                battle.Enemy.State = memento.SetStatePlaying();
+                //---------------------------------------------------------<<<<<<<<<<<<<<
                 if (battle.PlayerBoard == "")
+                {
                     battle.ActivePlayer = battle.EnemyName;
+                }
             }
             db.SaveChanges();
             return Json(new { EnemyBoard = enemyBoard });

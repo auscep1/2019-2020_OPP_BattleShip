@@ -18,6 +18,7 @@ namespace KronoBattleship.Models
             Losses = 0;
             Wins = 0;
             Picture = (1 + random.Next(22)) + ".png";
+            State = "Ready to play :(";
         }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
@@ -32,5 +33,6 @@ namespace KronoBattleship.Models
         public int Wins { get; set; }
         public int Losses { get; set; }
         public string Picture { get; set; }
+        public string State { get; set; }
     }
 }

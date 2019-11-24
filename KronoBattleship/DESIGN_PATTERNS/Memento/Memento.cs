@@ -7,6 +7,30 @@ namespace KronoBattleship.DESIGN_PATTERNS.Memento
 {
     //https://www.dofactory.com/net/memento-design-pattern
 
+    class MementoClient
+    {
+        private Originator o = new Originator();
+        private Caretaker c = new Caretaker();
+
+        public string SetStateFree()
+        {
+            o.State = ":("; //set player status to free
+            c.Memento = o.CreateMemento(); //save players status safe
+            return o.State;
+        }
+        public string SetStatePlaying()
+        {
+            o.State = "Playing :)";
+            return o.State;
+        }
+        public string RestoreState()
+        {
+            // Restore saved state
+            o.SetMemento(c.Memento);
+            return o.State;
+        }
+    }
+
     public class Memento
     {
         private string state;

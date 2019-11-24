@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using KronoBattleship.Models;
 using KronoBattleship.Datalayer;
 using Microsoft.AspNet.SignalR;
+using KronoBattleship.DESIGN_PATTERNS.Memento;
+
 
 namespace KronoBattleship.Controllers
 {
@@ -93,6 +95,12 @@ namespace KronoBattleship.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    //>>>>>>>>>>>>>>-Memento logic for players state 20191124-----------
+                    var db = ApplicationDbContext.GetInstance();
+                    MementoClient memento = new MementoClient();
+                    user.State = memento.SetStateFree();
+                    db.SaveChanges();
+                    //-------------------------------------------------------<<<<<<<<<<<
                     return RedirectToAction("Index", "Chat");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -166,6 +174,12 @@ namespace KronoBattleship.Controllers
             if (ModelState.IsValid)
             {
                 var user = new User { UserName = char.ToUpper(model.UserName[0]) + model.UserName.Substring(1), Email = model.Email };
+                //>>>>>>>>>>>>>>-Memento logic for players state 20191124-----------
+                var db = ApplicationDbContext.GetInstance();
+                MementoClient memento = new MementoClient();
+                user.State = memento.SetStateFree();
+                db.SaveChanges();
+                //-------------------------------------------------------<<<<<<<<<<<
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -385,6 +399,12 @@ namespace KronoBattleship.Controllers
                     return View("ExternalLoginFailure");
                 }
                 var user = new User { UserName = model.Email, Email = model.Email };
+                //>>>>>>>>>>>>>>-Memento logic for players state 20191124-----------
+                var db = ApplicationDbContext.GetInstance();
+                MementoClient memento = new MementoClient();
+                user.State = memento.SetStateFree();
+                db.SaveChanges();
+                //-------------------------------------------------------<<<<<<<<<<<
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

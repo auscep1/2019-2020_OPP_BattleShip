@@ -3,7 +3,6 @@
     ViewBag.Title = "Battle";
 }
 
-
 <div class="row">
     <div class="col-sm-7 col-md-6 col-lg-9" id="battle">
         <div class="row">
@@ -37,6 +36,7 @@
                 <img src="@Url.Content("~/Content/Icons/"+ Model.EnemyPicture)" class="round-image-40">
                 <div class="chat-about">
                     <div class="chat-with">Chat with @Model.EnemyName</div>
+                    <div class="chat-with">State: @Model.EnemyState</div>
                 </div>
                 <i class="fa fa-star"></i>
             </div> <!-- end chat-header -->
@@ -139,9 +139,6 @@
         battleHub.client.gameOver = function(winner){
             gameOver(winner);
         }
-
-
-
         $.connection.hub.start().done(function () {
             battleHub.server.join(battleJson.BattleId);
             $("#private-message").keypress(function (e) {

@@ -17,6 +17,8 @@ namespace KronoBattleship.Models
                 EnemyBoard = battle.EnemyBoard;
                 PlayerPicture = battle.Player.Picture;
                 EnemyPicture = battle.Enemy.Picture;
+                PlayerState = battle.Player.State;
+                EnemyState = battle.Enemy.State;
                 
             }else
             {
@@ -26,6 +28,8 @@ namespace KronoBattleship.Models
                 EnemyBoard = battle.PlayerBoard;
                 PlayerPicture = battle.Enemy.Picture;
                 EnemyPicture = battle.Player.Picture;
+                PlayerState = battle.Enemy.State;
+                EnemyState = battle.Player.State;
             }
             BattleId = battle.BattleId;
             ActivePlayer = battle.ActivePlayer;
@@ -38,5 +42,7 @@ namespace KronoBattleship.Models
         public string ActivePlayer { get; set; }
         public string PlayerPicture { get; set; }
         public string EnemyPicture { get; set; }
+        public string PlayerState { get; set; }
+        public string EnemyState { get; set; }
     }
 }
