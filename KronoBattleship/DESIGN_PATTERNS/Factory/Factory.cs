@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using KronoBattleship.DESIGN_PATTERNS.Decorator;
 using KronoBattleship.DESIGN_PATTERNS.Factory;
+using KronoBattleship.DESIGN_PATTERNS.Interpreter;
 using KronoBattleship.Models;
 
 namespace KronoBattleship.DESIGN_PATTERNS.Factory
@@ -58,7 +59,15 @@ namespace KronoBattleship.DESIGN_PATTERNS.Factory
             obj.Coordinates.Add(new PlaneCoordinates(x, y, obj as Plane));
             SizeDecorator sizeDecorator;
             SizeBase sizeBase = new SizeBase();
-            switch (type)
+
+            Expression expr = new PlaneCoordinatesInterpreter();
+            var additionalCoordinates = expr.Interprete(type, x, y, obj);
+            if(additionalCoordinates != null)
+            {
+                obj.Coordinates.AddRange(additionalCoordinates);
+            }
+            #region IŠKELTA Į INTERPRETATORIU
+            /*switch (type)
             {
                 case 1: //one sizer Plane
                     System.Diagnostics.Debug.WriteLine("PlaneFactory : Factory. One sizer Unit created.");
@@ -78,19 +87,8 @@ namespace KronoBattleship.DESIGN_PATTERNS.Factory
                     obj.Coordinates.Add(new PlaneCoordinates(sizeDecorator.GetResizer(), y, obj as Plane));
                     System.Diagnostics.Debug.WriteLine("PlaneFactory : Factory. Three sizer Unit created.");
                     break;
-            }
-            //while (x <= endx && y <= endy)
-            //{
-            //    obj.Coordinates.Add(new PlaneCoordinates(x, y, obj as Plane));
-            //    if (isHorizontal)
-            //    {
-            //        x++;
-            //    }
-            //    else
-            //    {
-            //        y++;
-            //    }
-            //}
+            }*/
+            #endregion
             obj.Size = obj.Coordinates.Count;
             System.Diagnostics.Debug.WriteLine(obj.ProductName);
             return obj;

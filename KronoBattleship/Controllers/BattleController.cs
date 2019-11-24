@@ -14,7 +14,7 @@ using KronoBattleship.DESIGN_PATTERNS.Adapter;
 using KronoBattleship.DESIGN_PATTERNS.Command;
 using KronoBattleship.DESIGN_PATTERNS.Template;
 using static KronoBattleship.DESIGN_PATTERNS.Command.Command;
-
+using KronoBattleship.DESIGN_PATTERNS.Proxy;
 
 namespace KronoBattleship.Controllers
 {
@@ -61,7 +61,8 @@ namespace KronoBattleship.Controllers
         [HttpPost]
         public ActionResult Attack(int battleId, int attack)
         {
-            bool hit;
+            #region IŠKELTA LOGIKA
+            /*bool hit;
             bool gameOver = false;
             string boardAfterAttack;
             var playerName = getCurrentUserName();
@@ -133,9 +134,12 @@ namespace KronoBattleship.Controllers
             {
                 battle.ActivePlayer = getEnemyName(battle);
             }
-            db.SaveChanges();
-            return Json(new { Hit = hit, GameOver = gameOver });
-
+            db.SaveChanges();*/
+            #endregion
+            IProxy attackProxy = new AttackProxy();
+            var result = attackProxy.Attack(attack, battleId);
+            //return Json(new { Hit = hit, GameOver = gameOver });
+            return Json(new { Hit = result.Item1, GameOver = result.Item2 });
         }
 
         // GET: Battle/Delete/5
@@ -250,34 +254,35 @@ namespace KronoBattleship.Controllers
                 enemy = user1;
             }
         }
+        #region iškelta į proxy, nes atakos logika
+        //private void shipHit(int attack, out bool hit, ref string enemyBoard)
+        //{
+        //    // if the enemyboard contains any letter that indicates is a ship
+        //    hit = "acegikmoqs".Contains(enemyBoard[attack]);
+        //    char[] tempBoard = enemyBoard.ToCharArray();
+        //    // increase the letter at the possition of the attack
+        //    tempBoard[attack] = (char)(enemyBoard[attack] + 1);
+        //    enemyBoard = new string(tempBoard);
+        //}
 
-        private void shipHit(int attack, out bool hit, ref string enemyBoard)
-        {
-            // if the enemyboard contains any letter that indicates is a ship
-            hit = "acegikmoqs".Contains(enemyBoard[attack]);
-            char[] tempBoard = enemyBoard.ToCharArray();
-            // increase the letter at the possition of the attack
-            tempBoard[attack] = (char)(enemyBoard[attack] + 1);
-            enemyBoard = new string(tempBoard);
-        }
+        //     private bool isTheGameOver(string enemyboard, Battle battle)
+        //     {
+        //         // ====== PRIDETA LOGIKA ======
+        //         var db = ApplicationDbContext.GetInstance();
+        //         var player1IsDead = db.Ships.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.PlayerName).All(x => x.Coordinates.All(xx => xx.Alive == false));
+        //         var player2IsDead = db.Ships.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.EnemyName).All(x => x.Coordinates.All(xx => xx.Alive == false));
 
-        private bool isTheGameOver(string enemyboard, Battle battle)
-        {
-            // ====== PRIDETA LOGIKA ======
-            var db = ApplicationDbContext.GetInstance();
-            var player1IsDead = db.Ships.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.PlayerName).All(x => x.Coordinates.All(xx => xx.Alive == false));
-            var player2IsDead = db.Ships.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.EnemyName).All(x => x.Coordinates.All(xx => xx.Alive == false));
+        //var player1IsDeadPlane = db.Planes.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.PlayerName).All(x => x.Coordinates.All(xx => xx.Alive == false));
+        //var player2IsDeadPlane = db.Planes.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.EnemyName).All(x => x.Coordinates.All(xx => xx.Alive == false));
 
-			var player1IsDeadPlane = db.Planes.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.PlayerName).All(x => x.Coordinates.All(xx => xx.Alive == false));
-			var player2IsDeadPlane = db.Planes.Where(x => x.BattleId == battle.BattleId && x.PlayerName == battle.EnemyName).All(x => x.Coordinates.All(xx => xx.Alive == false));
+        ///*UZKOMENTUOTA NES NU VA APACIOJ KITAIP 
+        //          * return player1IsDead || player2IsDead;*/
+        //// ====== end PRIDETA LOGIKA ======
 
-			/*UZKOMENTUOTA NES NU VA APACIOJ KITAIP 
-             * return player1IsDead || player2IsDead;*/
-			// ====== end PRIDETA LOGIKA ======
-
-			// check if all the ships have been hit
-			return enemyboard.FirstOrDefault(c => c != 'y' && c != 'z' && ("acegikmoqs".Contains(c)))
-                             .Equals('\0');
-        }
+        //// check if all the ships have been hit
+        //return enemyboard.FirstOrDefault(c => c != 'y' && c != 'z' && ("acegikmoqs".Contains(c)))
+        //                          .Equals('\0');
+        //     }
+        #endregion
     }
 }
