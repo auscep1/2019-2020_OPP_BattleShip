@@ -16,7 +16,6 @@ namespace KronoBattleship.Controllers
     public class BattleController : Controller
     {
         //>>>>>>>>>>--Memento logic for players state 20191124------------------
-
         private MementoClient memento = new MementoClient();
         //-----------------------------------------------------------<<<<<<<<<<<
 
@@ -25,7 +24,7 @@ namespace KronoBattleship.Controllers
         {
             var db = ApplicationDbContext.GetInstance();
             Battle battle = db.Battles.Find(battleId);
-            var currentUserName = getCurrentUserName();            
+            var currentUserName = getCurrentUserName();
             if (battle != null && (currentUserName.Equals(battle.PlayerName) || currentUserName.Equals(battle.EnemyName)))
             {
                 return View(new BattleViewModel(battle, currentUserName));
@@ -45,17 +44,16 @@ namespace KronoBattleship.Controllers
             if (battle == null)
             {
                 User player = db.Users.Where(n => n.UserName.Equals(playerName)).First();
-                //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
-                player.State = memento.SetStateFree();
-                //---------------------------------------------------------<<<<<<<<<<<<<<
                 User enemy = db.Users.Where(n => n.UserName.Equals(enemyName)).First();
-                //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
-                enemy.State = memento.SetStateFree();
-                //---------------------------------------------------------<<<<<<<<<<<<<<
                 battle = new Battle(player, enemy);
                 db.Battles.Add(battle);
                 db.SaveChanges();
             }
+            //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
+            battle.Player.State = memento.SetStateFree();
+            battle.Enemy.State = memento.SetStateFree();
+            db.SaveChanges();
+            //---------------------------------------------------------<<<<<<<<<<<<<<
             var context = getContext();
             context.Clients.Group(getEnemyName(battle)).answer(User.Identity.Name, battle.BattleId);
             return RedirectToAction("Index", new { battleId = battle.BattleId });
@@ -164,9 +162,10 @@ namespace KronoBattleship.Controllers
             battle.EnemyBoard = "";
             //>>>>>>>>>>>>>>-Memento logic for players state 20191124-----------
             //-------------------------------------------------------<<<<<<<<<<<
-            battle.Player.State = memento.SetStateFree();
+            battle.Player.State = memento.SetStateFree(); //kzkodel sesijoj nepasisaugo memento objektas, todel taip nuosekliai
             battle.Player.State = memento.SetStatePlaying();
             battle.Player.State = memento.RestoreState();
+
             battle.Enemy.State = memento.SetStateFree();
             battle.Enemy.State = memento.SetStatePlaying();
             battle.Enemy.State = memento.RestoreState();
