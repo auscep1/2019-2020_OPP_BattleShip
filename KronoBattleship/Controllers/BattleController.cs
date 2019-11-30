@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using KronoBattleship.DESIGN_PATTERNS.Template;
 using KronoBattleship.DESIGN_PATTERNS.Proxy;
 using KronoBattleship.DESIGN_PATTERNS.Memento;
+using KronoBattleship.DESIGN_PATTERNS.Mediator_pattern;
 
 namespace KronoBattleship.Controllers
 {
@@ -36,19 +37,24 @@ namespace KronoBattleship.Controllers
         [HttpPost]
         public ActionResult Create(string user1, string user2)
         {
-            string playerName, enemyName;
-
-            getPlayers(user1, user2, out playerName, out enemyName);
+            Mediator mediator = new Mediator();
+            mediator.PlayersManager = new PlayersManager(mediator);
+            mediator.BattleManager = new BattleManager(mediator);
+            mediator.UserManager = new UserManager(mediator);
             var db = ApplicationDbContext.GetInstance();
-            Battle battle = db.Battles.Where(b => b.PlayerName.Equals(playerName) && b.EnemyName.Equals(enemyName)).FirstOrDefault();
-            if (battle == null)
-            {
-                User player = db.Users.Where(n => n.UserName.Equals(playerName)).First();
-                User enemy = db.Users.Where(n => n.UserName.Equals(enemyName)).First();
-                battle = new Battle(player, enemy);
-                db.Battles.Add(battle);
-                db.SaveChanges();
-            }
+            Battle battle = mediator.AddBattle(db, user1, user2);
+
+            #region iškelta į BattleManager, prie Mediator
+            //if (battle == null)
+            //{
+            //    User player = mediator.FindUser(db, playerName);
+            //    User enemy = mediator.FindUser(db, enemyName);
+            //    battle = new Battle(player, enemy);
+            //    db.Battles.Add(battle);
+            //    db.SaveChanges();
+            //}
+            #endregion
+
             //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
             battle.Player.State = memento.SetStateFree();
             battle.Enemy.State = memento.SetStateFree();
@@ -264,19 +270,21 @@ namespace KronoBattleship.Controllers
         }
 
         // Helpers
-        private void getPlayers(string user1, string user2, out string player, out string enemy)
-        {
-            if (user1.CompareTo(user2) < 0)
-            {
-                player = user1;
-                enemy = user2;
-            }
-            else
-            {
-                player = user2;
-                enemy = user1;
-            }
-        }
+        #region iškelta į PlayersManager, prie Mediator
+        //private void getPlayers(string user1, string user2, out string player, out string enemy)
+        //{
+        //    if (user1.CompareTo(user2) < 0)
+        //    {
+        //        player = user1;
+        //        enemy = user2;
+        //    }
+        //    else
+        //    {
+        //        player = user2;
+        //        enemy = user1;
+        //    }
+        //}
+        #endregion
         #region iškelta į proxy, nes atakos logika
         //private void shipHit(int attack, out bool hit, ref string enemyBoard)
         //{
