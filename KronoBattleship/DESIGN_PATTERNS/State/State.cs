@@ -25,9 +25,29 @@ namespace KronoBattleship.DESIGN_PATTERNS.State
         }
     }
     /// <summary>
-    /// ConcreteStateWaiting class
+    /// Concrete sate class
     /// </summary>
     class Waiting : State
+    {
+        public override void Handle(Context context)
+        {
+            context.State = new Joined();
+        }
+    }
+    /// <summary>
+    /// Concrete sate class
+    /// </summary>
+    class Joined : State
+    {
+        public override void Handle(Context context)
+        {
+            context.State = new Ready();
+        }
+    }
+    /// <summary>
+    /// Concrete sate class
+    /// </summary>
+    class Ready : State
     {
         public override void Handle(Context context)
         {
@@ -35,7 +55,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.State
         }
     }
     /// <summary>
-    /// ConcreteStatePlaying class
+     /// Concrete sate class
     /// </summary>
     class Playing : State
     {
