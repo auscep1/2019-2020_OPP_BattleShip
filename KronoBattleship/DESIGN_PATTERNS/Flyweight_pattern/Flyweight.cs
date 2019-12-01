@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using KronoBattleship.Datalayer;
 using KronoBattleship.DESIGN_PATTERNS.State;
+using KronoBattleship.Models;
 
 namespace KronoBattleship.DESIGN_PATTERNS.Flyweight_pattern
 {

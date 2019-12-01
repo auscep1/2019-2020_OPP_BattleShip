@@ -39,6 +39,5 @@ namespace KronoBattleship.Models
         public string EnemyBoard { get; set; }
         public string ActivePlayer { get; set; }
         public byte[] RowVersion { get; set; }
-
     }
 }

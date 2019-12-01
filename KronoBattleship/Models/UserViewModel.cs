@@ -1,4 +1,5 @@
 ﻿using KronoBattleship.DESIGN_PATTERNS.Memento;
+using KronoBattleship.DESIGN_PATTERNS.State;
 using System;
 using System.Collections.Generic;
 using System.Linq;

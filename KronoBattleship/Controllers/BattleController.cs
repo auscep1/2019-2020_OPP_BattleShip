@@ -10,6 +10,7 @@ using KronoBattleship.DESIGN_PATTERNS.Template;
 using KronoBattleship.DESIGN_PATTERNS.Proxy;
 using KronoBattleship.DESIGN_PATTERNS.Memento;
 using KronoBattleship.DESIGN_PATTERNS.Mediator_pattern;
+using KronoBattleship.DESIGN_PATTERNS.State;
 
 namespace KronoBattleship.Controllers
 {
@@ -19,7 +20,7 @@ namespace KronoBattleship.Controllers
         //>>>>>>>>>>--Memento logic for players state 20191124------------------
         private MementoClient memento = new MementoClient();
         //-----------------------------------------------------------<<<<<<<<<<<
-
+       
         // GET: Battle/id
         public ActionResult Index(int battleId)
         {
@@ -60,9 +61,18 @@ namespace KronoBattleship.Controllers
             battle.Enemy.State = memento.SetStateFree();
             db.SaveChanges();
             //---------------------------------------------------------<<<<<<<<<<<<<<
+
+            battle.Player.ChangeState();
+            battle.Enemy.ChangeState();
+            db.SaveChanges();
+
+            //---------
             var context = getContext();
             context.Clients.Group(getEnemyName(battle)).answer(User.Identity.Name, battle.BattleId);
-            return RedirectToAction("Index", new { battleId = battle.BattleId });
+            return RedirectToAction("Index", new
+            {
+                battleId = battle.BattleId
+            });
         }
 
 
@@ -82,22 +92,22 @@ namespace KronoBattleship.Controllers
             var enemyName = battle.PlayerName == playerName ? battle.EnemyName : battle.PlayerName;
             var enemyShips = db.Ships.Where(x => x.BattleId == battle.BattleId && x.PlayerName == enemyName);
             var enemyPlanes = db.Planes.Where(x => x.BattleId == battle.BattleId && x.PlayerName == enemyName);
-			int Xattack = attack % 10;
+            int Xattack = attack % 10;
             int Yattack = attack / 10;
             var hittedShipCoor = enemyShips.SelectMany(xx => xx.Coordinates.Where(c => c.Alive == true && c.x == Xattack && c.y == Yattack).ToList()).FirstOrDefault();
             var hittedPlaneCoor = enemyPlanes.SelectMany(xx => xx.Coordinates.Where(c => c.Alive == true && c.x == Xattack && c.y == Yattack).ToList()).FirstOrDefault();
-			if (hittedShipCoor != null)
+            if (hittedShipCoor != null)
             {
                 //var coorToChange = hittedShip.Coordinates.Where(c => c.Alive == true && c.x == Xattack && c.y == Yattack).FirstOrDefault();//enemyShips.Select(xx => xx.Coordinates.Where(c => c.Alive == true && c.x == Xattack && c.y == Yattack).FirstOrDefault()).FirstOrDefault();
                 hittedShipCoor.Alive = false;
             }
-			if (hittedPlaneCoor != null)
-			{
-				hittedPlaneCoor.Alive = false;
-			}
-			// ====== end PRIDETA LOGIKA ======
+            if (hittedPlaneCoor != null)
+            {
+                hittedPlaneCoor.Alive = false;
+            }
+            // ====== end PRIDETA LOGIKA ======
 
-			if (playerName.Equals(battle.PlayerName))
+            if (playerName.Equals(battle.PlayerName))
             {
                 boardAfterAttack = battle.EnemyBoard;
                 shipHit(attack, out hit, ref boardAfterAttack);
@@ -132,13 +142,13 @@ namespace KronoBattleship.Controllers
                 {
                     db.Ships.Remove(ship);
                 }
-				var planesToRemove = db.Planes.Where(x => x.BattleId == battle.BattleId);
-				foreach (var plane in planesToRemove)
-				{
-					db.Planes.Remove(plane);
-				}
-				// ====== end PRIDETA LOGIKA ======
-			}
+                var planesToRemove = db.Planes.Where(x => x.BattleId == battle.BattleId);
+                foreach (var plane in planesToRemove)
+                {
+                    db.Planes.Remove(plane);
+                }
+                // ====== end PRIDETA LOGIKA ======
+            }
             else
             {
                 battle.ActivePlayer = getEnemyName(battle);
@@ -176,6 +186,18 @@ namespace KronoBattleship.Controllers
             battle.Enemy.State = memento.SetStatePlaying();
             battle.Enemy.State = memento.RestoreState();
             //-------------------------------------------------------<<<<<<<<<<<
+            //>>>>>>>>>>>>>>>>>>---------State 2019-12-01-------------------
+            if (!battle.Player.GetState().Equals("Playing") || !battle.Enemy.GetState().Equals("Playing"))
+            {
+                battle.Player.RestoreState();
+                battle.Enemy.RestoreState();
+            }
+            else
+            {
+                battle.Player.ChangeState();
+                battle.Player.ChangeState();
+            }
+            //------------------------------------------------------------------
             battle.ActivePlayer = "";
             if (battle.PlayerName.Equals(currentUserName))
             {
@@ -234,6 +256,9 @@ namespace KronoBattleship.Controllers
                 //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
                 battle.Player.State = memento.SetStatePlaying();
                 //---------------------------------------------------------<<<<<<<<<<<<<<
+                //>>>>>>>>>>>>>>>>>>---------State 2019-12-01-------------------
+                battle.Player.ChangeState();
+                //-----------------------------------------------------------------------
                 if (battle.EnemyBoard == "")
                 {
                     battle.ActivePlayer = battle.PlayerName;
@@ -246,11 +271,22 @@ namespace KronoBattleship.Controllers
                 //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
                 battle.Enemy.State = memento.SetStatePlaying();
                 //---------------------------------------------------------<<<<<<<<<<<<<<
+                //>>>>>>>>>>>>>>>>>>---------State 2019-12-01-------------------
+                battle.Enemy.ChangeState();
+                //-----------------------------------------------------------------------
                 if (battle.PlayerBoard == "")
                 {
                     battle.ActivePlayer = battle.EnemyName;
                 }
             }
+            db.SaveChanges();
+            //>>>>>>>>>>>>>>>>>>---------State 2019-12-01-------------------
+            if (battle.Player.GetState().Equals(battle.Enemy.GetState()) && battle.Player.GetState().Equals("Ready"))
+            {
+                battle.Player.ChangeState();
+                battle.Enemy.ChangeState();
+            }
+            //-------------------------------<<<<<<<<<<<<<<<<<<<<<<<<<<<
             db.SaveChanges();
             return Json(new { EnemyBoard = enemyBoard });
         }

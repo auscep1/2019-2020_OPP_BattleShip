@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using KronoBattleship.DESIGN_PATTERNS.State;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace KronoBattleship.Models
             Wins = 0;
             Picture = (1 + random.Next(22)) + ".png";
             State = "Ready to play :(";
+            State2 = SetState();
         }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
@@ -34,5 +36,23 @@ namespace KronoBattleship.Models
         public int Losses { get; set; }
         public string Picture { get; set; }
         public string State { get; set; }
+        private ContextState State2 { get; set; }
+
+        private ContextState SetState()
+        {
+            return new ContextState(new Waiting()); 
+        }
+        public void ChangeState()
+        {
+            this.State2.Request();
+        }
+        public string GetState()
+        {
+            return this.State2.GetUserState();
+        }
+        public void RestoreState()
+        {
+            this.State2 = new ContextState(new Waiting());
+        }
     }
 }

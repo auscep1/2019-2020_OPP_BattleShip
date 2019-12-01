@@ -28,12 +28,13 @@ namespace KronoBattleship
             //System.Diagnostics.Debug.WriteLine("Origin hash code: {0}", plane.GetHashCode());
             //System.Diagnostics.Debug.WriteLine("Cloned hash code: {0}", deepCopy.GetHashCode());
 
-            //State obj = new ConcreteStateWaiting();
-            //Context c = new Context(obj);
-            //c.Request();
-            //c.Request();
-            //c.Request();
-            //c.Request();
+            //Battle b = new Battle();
+            //State obj = new Waiting(b, "player");
+            //ContextState c = new ContextState(obj,b, "player" );
+            //c.RequestPlayer();
+            //c.RequestPlayer();
+            //c.RequestPlayer();
+            //c.RequestPlayer();
         }
     }
 }
