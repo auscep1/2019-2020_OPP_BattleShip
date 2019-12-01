@@ -187,7 +187,7 @@ namespace KronoBattleship.Controllers
             battle.Enemy.State = memento.RestoreState();
             //-------------------------------------------------------<<<<<<<<<<<
             //>>>>>>>>>>>>>>>>>>---------State 2019-12-01-------------------
-            if (!battle.Player.GetState().Equals("Playing") || !battle.Enemy.GetState().Equals("Playing"))
+            if (!battle.Player.GetState().Equals(battle.Enemy.GetState()) || (!battle.Player.GetState().Equals("Playing") || !battle.Enemy.GetState().Equals("Playing")))
             {
                 battle.Player.RestoreState();
                 battle.Enemy.RestoreState();
@@ -195,7 +195,7 @@ namespace KronoBattleship.Controllers
             else
             {
                 battle.Player.ChangeState();
-                battle.Player.ChangeState();
+                battle.Enemy.ChangeState();
             }
             //------------------------------------------------------------------
             battle.ActivePlayer = "";
@@ -290,7 +290,6 @@ namespace KronoBattleship.Controllers
             db.SaveChanges();
             return Json(new { EnemyBoard = enemyBoard });
         }
-
 
         private IHubContext getContext()
         {
