@@ -17,10 +17,6 @@ namespace KronoBattleship.Controllers
     [System.Web.Mvc.Authorize]
     public class BattleController : Controller
     {
-        //>>>>>>>>>>--Memento logic for players state 20191124------------------
-        private MementoClient memento = new MementoClient();
-        //-----------------------------------------------------------<<<<<<<<<<<
-       
         // GET: Battle/id
         public ActionResult Index(int battleId)
         {
@@ -57,11 +53,10 @@ namespace KronoBattleship.Controllers
             #endregion
 
             //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
-            battle.Player.State = memento.SetStateFree();
-            battle.Enemy.State = memento.SetStateFree();
+            battle.Player.SetMementoStateFree();
+            battle.Enemy.SetMementoStateFree();
             db.SaveChanges();
             //---------------------------------------------------------<<<<<<<<<<<<<<
-
             battle.Player.ChangeState();
             battle.Enemy.ChangeState();
             db.SaveChanges();
@@ -177,25 +172,21 @@ namespace KronoBattleship.Controllers
             battle.PlayerBoard = "";
             battle.EnemyBoard = "";
             //>>>>>>>>>>>>>>-Memento logic for players state 20191124-----------
-            //-------------------------------------------------------<<<<<<<<<<<
-            battle.Player.State = memento.SetStateFree(); //kzkodel sesijoj nepasisaugo memento objektas, todel taip nuosekliai
-            battle.Player.State = memento.SetStatePlaying();
-            battle.Player.State = memento.RestoreState();
-
-            battle.Enemy.State = memento.SetStateFree();
-            battle.Enemy.State = memento.SetStatePlaying();
-            battle.Enemy.State = memento.RestoreState();
+            battle.Player.RestoreMementoState();
+            battle.Enemy.RestoreMementoState();
             //-------------------------------------------------------<<<<<<<<<<<
             //>>>>>>>>>>>>>>>>>>---------State 2019-12-01-------------------
             if (!battle.Player.GetState().Equals(battle.Enemy.GetState()) || (!battle.Player.GetState().Equals("Playing") || !battle.Enemy.GetState().Equals("Playing")))
             {
                 battle.Player.RestoreState();
                 battle.Enemy.RestoreState();
+                db.SaveChanges();
             }
             else
             {
                 battle.Player.ChangeState();
                 battle.Enemy.ChangeState();
+                db.SaveChanges();
             }
             //------------------------------------------------------------------
             battle.ActivePlayer = "";
@@ -254,7 +245,7 @@ namespace KronoBattleship.Controllers
                 battle.PlayerBoard = playerBoard;
                 enemyBoard = battle.EnemyBoard;
                 //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
-                battle.Player.State = memento.SetStatePlaying();
+                battle.Player.SetMementoStatePlaying();
                 //---------------------------------------------------------<<<<<<<<<<<<<<
                 //>>>>>>>>>>>>>>>>>>---------State 2019-12-01-------------------
                 battle.Player.ChangeState();
@@ -269,7 +260,7 @@ namespace KronoBattleship.Controllers
                 battle.EnemyBoard = playerBoard;
                 enemyBoard = battle.PlayerBoard;
                 //>>>>>>>>>>>>-Memento logic for players state 20191124------------------
-                battle.Enemy.State = memento.SetStatePlaying();
+                battle.Enemy.SetMementoStatePlaying();
                 //---------------------------------------------------------<<<<<<<<<<<<<<
                 //>>>>>>>>>>>>>>>>>>---------State 2019-12-01-------------------
                 battle.Enemy.ChangeState();

@@ -1,4 +1,5 @@
-﻿using KronoBattleship.DESIGN_PATTERNS.State;
+﻿using KronoBattleship.DESIGN_PATTERNS.Memento;
+using KronoBattleship.DESIGN_PATTERNS.State;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -19,8 +20,8 @@ namespace KronoBattleship.Models
             Losses = 0;
             Wins = 0;
             Picture = (1 + random.Next(22)) + ".png";
-            State = "Ready to play :(";
-            State2 = SetState();
+            State = new MementoClient();
+            State2 = new ContextState(new Waiting());
         }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
@@ -35,13 +36,9 @@ namespace KronoBattleship.Models
         public int Wins { get; set; }
         public int Losses { get; set; }
         public string Picture { get; set; }
-        public string State { get; set; }
+        private MementoClient State { get; set; }
         private ContextState State2 { get; set; }
 
-        private ContextState SetState()
-        {
-            return new ContextState(new Waiting()); 
-        }
         public void ChangeState()
         {
             this.State2.Request();
@@ -53,6 +50,22 @@ namespace KronoBattleship.Models
         public void RestoreState()
         {
             this.State2 = new ContextState(new Waiting());
+        }
+        public void SetMementoStateFree()
+        {
+            this.State.SetStateFree();
+        }
+        public void SetMementoStatePlaying()
+        {
+            this.State.SetStatePlaying();
+        }
+        public void RestoreMementoState()
+        {
+            this.State.RestoreState();
+        }
+        public string GetMementoState()
+        {
+            return this.State.GetMementoState();
         }
     }
 }

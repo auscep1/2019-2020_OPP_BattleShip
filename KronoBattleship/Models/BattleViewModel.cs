@@ -17,8 +17,8 @@ namespace KronoBattleship.Models
                 EnemyBoard = battle.EnemyBoard;
                 PlayerPicture = battle.Player.Picture;
                 EnemyPicture = battle.Enemy.Picture;
-                PlayerState = battle.Player.State;
-                EnemyState = battle.Enemy.State;
+                PlayerState = battle.Player.GetMementoState();
+                EnemyState = battle.Enemy.GetMementoState();
                 PlayerState2 = battle.Player.GetState();
                 EnemyState2 = battle.Enemy.GetState();
 
@@ -31,8 +31,8 @@ namespace KronoBattleship.Models
                 EnemyBoard = battle.PlayerBoard;
                 PlayerPicture = battle.Enemy.Picture;
                 EnemyPicture = battle.Player.Picture;
-                PlayerState = battle.Enemy.State;
-                EnemyState = battle.Player.State;
+                PlayerState = battle.Enemy.GetMementoState();
+                EnemyState = battle.Player.GetMementoState();
                 PlayerState2 = battle.Enemy.GetState();
                 EnemyState2 = battle.Player.GetState();
             }

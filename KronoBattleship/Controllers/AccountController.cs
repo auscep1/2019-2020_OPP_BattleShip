@@ -97,8 +97,7 @@ namespace KronoBattleship.Controllers
                 case SignInStatus.Success:
                     //>>>>>>>>>>>>>>-Memento logic for players state 20191124-----------
                     var db = ApplicationDbContext.GetInstance();
-                    MementoClient memento = new MementoClient();
-                    user.State = memento.SetStateFree();
+                    user.SetMementoStateFree();
                     db.SaveChanges();
                     //-------------------------------------------------------<<<<<<<<<<<
                     return RedirectToAction("Index", "Chat");
@@ -177,7 +176,7 @@ namespace KronoBattleship.Controllers
                 //>>>>>>>>>>>>>>-Memento logic for players state 20191124-----------
                 var db = ApplicationDbContext.GetInstance();
                 MementoClient memento = new MementoClient();
-                user.State = memento.SetStateFree();
+                user.SetMementoStateFree();
                 db.SaveChanges();
                 //-------------------------------------------------------<<<<<<<<<<<
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -401,8 +400,7 @@ namespace KronoBattleship.Controllers
                 var user = new User { UserName = model.Email, Email = model.Email };
                 //>>>>>>>>>>>>>>-Memento logic for players state 20191124-----------
                 var db = ApplicationDbContext.GetInstance();
-                MementoClient memento = new MementoClient();
-                user.State = memento.SetStateFree();
+                user.SetMementoStateFree();
                 db.SaveChanges();
                 //-------------------------------------------------------<<<<<<<<<<<
                 var result = await UserManager.CreateAsync(user);

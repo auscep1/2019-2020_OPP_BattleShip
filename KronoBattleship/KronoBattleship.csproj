@@ -242,6 +242,10 @@
     <Compile Include="Migrations\201912011622524_playerState2.designer.cs">
       <DependentUpon>201912011622524_playerState2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912011952428_playerMementoState.cs" />
+    <Compile Include="Migrations\201912011952428_playerMementoState.designer.cs">
+      <DependentUpon>201912011952428_playerMementoState.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Battle.cs" />
@@ -486,6 +490,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912011622524_playerState2.resx">
       <DependentUpon>201912011622524_playerState2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912011952428_playerMementoState.resx">
+      <DependentUpon>201912011952428_playerMementoState.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

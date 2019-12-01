@@ -97,6 +97,14 @@ namespace KronoBattleship.DESIGN_PATTERNS.Proxy
                 {
                     db.Planes.Remove(plane);
                 }
+
+                //>>>>>>>>>>>>>>>>>>---------State & Memento 2019-12-01-------------------
+                battle.Player.RestoreMementoState();
+                battle.Enemy.RestoreMementoState();
+                battle.Player.ChangeState();
+                battle.Enemy.ChangeState();
+                db.SaveChanges();
+                //------------------------------------------------------------------
                 // ====== end PRIDETA LOGIKA ======
             }
             else

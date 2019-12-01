@@ -15,3 +15,7 @@
 4. update-database : Cannot bind argument to parameter 'Path' because it is null.
 		1) PM> Uninstall-Package EntityFramework -Force
 		2) PM> Install-Package EntityFramework -Pre
+
+5. Po pilno db istrynimo, gali mesti klaida, kad neuzkrauna useriu (jei buvo pries tai prisijungta- lieka prisijunges useris sesijoj, del to meta klaida kol tokenas galioja)
+	tai reikia is karto eiti: http://localhost:49753/Account/Register
+	ir prisiregistruoti

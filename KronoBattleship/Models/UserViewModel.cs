@@ -16,7 +16,8 @@ namespace KronoBattleship.Models
             Wins = user.Wins;
             Losses = user.Losses;
             Picture = user.Picture;
-            State = user.State;
+            State = user.GetMementoState();
+            State2 = user.GetState();
         }
         public string Id { get; set; }
         public string UserName { get; set; }
@@ -24,6 +25,7 @@ namespace KronoBattleship.Models
         public int Losses { get; set; }
         public string Picture { get; set; }
         public string State { get; set; }
+        public string State2 { get; set; }
         public static List<UserViewModel> GetList(List<User> list)
         {
             return list.Select(u => new UserViewModel(u)).ToList();

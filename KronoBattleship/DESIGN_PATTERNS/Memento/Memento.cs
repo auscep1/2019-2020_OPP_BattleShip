@@ -29,6 +29,10 @@ namespace KronoBattleship.DESIGN_PATTERNS.Memento
             o.SetMemento(c.Memento);
             return o.State;
         }
+        public string GetMementoState()
+        {
+            return o.State;
+        }
     }
 
     public class Memento
@@ -47,10 +51,12 @@ namespace KronoBattleship.DESIGN_PATTERNS.Memento
         // Gets or sets state
         public string State
         {
-            get {
+            get
+            {
                 return state;
             }
         }
+
     }
 
     /// <summary>
@@ -82,7 +88,6 @@ namespace KronoBattleship.DESIGN_PATTERNS.Memento
     class Originator
     {
         private string state;
-
         /// <summary>
         /// State property
         /// </summary>
