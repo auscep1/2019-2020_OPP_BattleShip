@@ -1,4 +1,5 @@
 ﻿using KronoBattleship.DESIGN_PATTERNS.Builder;
+using KronoBattleship.DESIGN_PATTERNS.Chain;
 using KronoBattleship.DESIGN_PATTERNS.Factory;
 using KronoBattleship.Models;
 using System;
@@ -30,9 +31,24 @@ namespace KronoBattleship.DESIGN_PATTERNS.Facade
             //var builder = new ShipBuilder(Owner, Battle, x, endx, y, endy, isHorizontal);
             IShipBuilder shipabstractbuilder = new ShipBuilder(Owner, Battle, x, endx, y, endy, isHorizontal);
             AbstractShipBuilder builder = new AbstractShipBuilder(shipabstractbuilder);
-            builder.BuildBase();
-            builder.BuildCoordinates();
-            builder.BuildSize();
+
+            ShipChain buildReset = new BuildReset(builder);
+            ShipChain buildBase = new BuildBase(builder);
+            ShipChain buildCoordinates = new BuildCoordinates(builder);
+            ShipChain buildSize = new BuildSize(builder);
+
+            buildReset.SetNextChain(buildBase);
+            buildBase.SetNextChain(buildCoordinates);
+            buildCoordinates.SetNextChain(buildSize);
+            buildSize.SetNextChain(null);
+
+            ShipChain mainBuild = buildReset;
+
+            mainBuild.Build();
+
+            //builder.BuildBase();
+            //builder.BuildCoordinates();
+            //builder.BuildSize();
 
             return builder.GetShip();
         }
