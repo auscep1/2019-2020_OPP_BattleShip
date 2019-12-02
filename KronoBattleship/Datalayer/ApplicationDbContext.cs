@@ -16,7 +16,7 @@ namespace KronoBattleship.Datalayer
         private static object threadLock = new object();
         // updatinant duombaze reikia pakeist i public
        // public ApplicationDbContext()
-        private ApplicationDbContext()
+        public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }

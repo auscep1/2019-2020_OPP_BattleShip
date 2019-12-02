@@ -76,7 +76,9 @@ namespace KronoBattleship.DESIGN_PATTERNS.Template
 
             //Code for Visitor design patter
 
-            IVisitor visitor = new ShipVisitor();
+            IVisitor shipVisitor = new ShipVisitor();
+            IVisitor planeVisitor = new PlaneVisitor();
+            IVisitor otherVisitor = new OtherVisitor();
 
             IVisitable getExtraLargeShip = new GetExtraLargeShipLocation();
             IVisitable getLargeShip = new GetLargeShipLocation();
@@ -100,7 +102,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Template
                             //This line is used for command design patter
                             List<int> extraLargeShipLocation = commands[0].Execute(isHorizontal, i);
                             //This line is used for visitor design patter
-                            List<int> getExtraLargeShipLocation = getExtraLargeShip.accept(visitor, isHorizontal, i);
+                            List<int> getExtraLargeShipLocation = getExtraLargeShip.accept(shipVisitor, isHorizontal, i);
                             //endx = extraLargeShipLocation[0];
                             //endy = extraLargeShipLocation[1];
                             endx = getExtraLargeShipLocation[0];
@@ -111,7 +113,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Template
                             //This line is used for command design patter
                             List<int> largeShipLocation = commands[1].Execute(isHorizontal, i);
                             //This line is used for visitor design patter
-                            List<int> getLargeShipLocation = getLargeShip.accept(visitor, isHorizontal, i);
+                            List<int> getLargeShipLocation = getLargeShip.accept(planeVisitor, isHorizontal, i);
                             //endx = largeShipLocation[0];
                             //endy = largeShipLocation[1];
                             endx = getLargeShipLocation[0];
@@ -122,7 +124,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Template
                             //This line is used for command design patter
                             List<int> normalShipLocation = commands[2].Execute(isHorizontal, i);
                             //This line is used for visitor design patter
-                            List<int> getNormalShipLocation = getNormalShip.accept(visitor, isHorizontal, i);
+                            List<int> getNormalShipLocation = getNormalShip.accept(otherVisitor, isHorizontal, i);
                             //endx = normalShipLocation[0];
                             //endy = normalShipLocation[1];
                             endx = getNormalShipLocation[0];
@@ -133,7 +135,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Template
                             //This line is used for command design patter
                             List<int> smallShipLocation = commands[3].Execute(isHorizontal, i);
                             //This line is used for visitor design patter
-                            List<int> getSmallShipLocation = getSmallShip.accept(visitor, isHorizontal, i);
+                            List<int> getSmallShipLocation = getSmallShip.accept(shipVisitor, isHorizontal, i);
                             //endx = smallShipLocation[0];
                             //endy = smallShipLocation[1];
                             endx = getSmallShipLocation[0];
@@ -144,7 +146,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Template
                             //This line is used for command design patter
                             List<int> extraSmallShipLocation = commands[4].Execute(isHorizontal, i);
                             //This line is used for visitor design patter
-                            List<int> getExtraSmallShipLocation = getExtraSmallShip.accept(visitor, isHorizontal, i);
+                            List<int> getExtraSmallShipLocation = getExtraSmallShip.accept(otherVisitor, isHorizontal, i);
                             //endx = extraSmallShipLocation[0];
                             //endy = extraSmallShipLocation[1];
                             endx = getExtraSmallShipLocation[0];
