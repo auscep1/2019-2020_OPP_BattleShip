@@ -28,7 +28,8 @@ namespace KronoBattleship.DESIGN_PATTERNS.Template
         {
             System.Diagnostics.Debug.WriteLine("AbstractTempate : Base method");
         }
-        protected abstract void BattleShipObjects(int battleId, string playerBoard);
+        protected virtual void BattleShipObjects(int battleId, string playerBoard) { }
+        //protected abstract void BattleShipObjects(int battleId, string playerBoard);
     }
 
     /// <summary>
@@ -47,7 +48,8 @@ namespace KronoBattleship.DESIGN_PATTERNS.Template
     /// </summary>
     class TemplateShips : Template
     {
-        protected override void BattleShipObjects(int battleId, string playerBoard)
+        protected sealed override void BattleShipObjects(int battleId, string playerBoard)
+        //protected override void BattleShipObjects(int battleId, string playerBoard)
         {
             var db = ApplicationDbContext.GetInstance();
             Battle battle = db.Battles.Find(battleId);
@@ -186,7 +188,8 @@ namespace KronoBattleship.DESIGN_PATTERNS.Template
     /// </summary>
     class TemplatePlanes : Template
     {
-        protected override void BattleShipObjects(int battleId, string playerBoard)
+        protected sealed override void BattleShipObjects(int battleId, string playerBoard)
+        //protected override void BattleShipObjects(int battleId, string playerBoard)
         {
             var db = ApplicationDbContext.GetInstance();
             Battle battle = db.Battles.Find(battleId);
