@@ -1,11 +1,10 @@
 ﻿using KronoBattleship.Datalayer;
 using KronoBattleship.DESIGN_PATTERNS.Adapter;
 using KronoBattleship.DESIGN_PATTERNS.Command;
-using KronoBattleship.DESIGN_PATTERNS.Facade;
+using KronoBattleship.DESIGN_PATTERNS.Visitor;
 using KronoBattleship.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -59,19 +58,31 @@ namespace KronoBattleship.DESIGN_PATTERNS.Template
             var copy = playerBoard;
             var ships = "acegikmq";
 
+            //Code for Command design patter
+
             List<ICommand> commands = new List<ICommand>();
 
-            GetExtraLargeShipLocation extraLargeShip = new GetExtraLargeShipLocation();
-            GetLargeShipLocation largeShip = new GetLargeShipLocation();
-            GetNormalShipLocation normalShip = new GetNormalShipLocation();
-            GetSmallShipLocation smallShip = new GetSmallShipLocation();
-            GetExtraSmallShipLocation extraSmallShip = new GetExtraSmallShipLocation();
+            ICommand extraLargeShip = new GetExtraLargeShipLocation();
+            ICommand largeShip = new GetLargeShipLocation();
+            ICommand normalShip = new GetNormalShipLocation();
+            ICommand smallShip = new GetSmallShipLocation();
+            ICommand extraSmallShip = new GetExtraSmallShipLocation();
 
             commands.Add(extraLargeShip);
             commands.Add(largeShip);
             commands.Add(normalShip);
             commands.Add(smallShip);
             commands.Add(extraSmallShip);
+
+            //Code for Visitor design patter
+
+            IVisitor visitor = new ShipVisitor();
+
+            IVisitable getExtraLargeShip = new GetExtraLargeShipLocation();
+            IVisitable getLargeShip = new GetLargeShipLocation();
+            IVisitable getNormalShip = new GetNormalShipLocation();
+            IVisitable getSmallShip = new GetSmallShipLocation();
+            IVisitable getExtraSmallShip = new GetExtraSmallShipLocation();
 
             for (int i = 0; i < copy.Length; i++)
             {
@@ -86,34 +97,59 @@ namespace KronoBattleship.DESIGN_PATTERNS.Template
                     switch (copy[i])
                     {
                         case 'a':
+                            //This line is used for command design patter
                             List<int> extraLargeShipLocation = commands[0].Execute(isHorizontal, i);
-                            endx = extraLargeShipLocation[0];
-                            endy = extraLargeShipLocation[1];
-                            System.Diagnostics.Debug.WriteLine("Command: Location of extra large ship was found");
+                            //This line is used for visitor design patter
+                            List<int> getExtraLargeShipLocation = getExtraLargeShip.accept(visitor, isHorizontal, i);
+                            //endx = extraLargeShipLocation[0];
+                            //endy = extraLargeShipLocation[1];
+                            endx = getExtraLargeShipLocation[0];
+                            endy = getExtraLargeShipLocation[1];
+                            //System.Diagnostics.Debug.WriteLine("Command: Location of extra large ship was found");
                             break;
                         case 'm':
+                            //This line is used for command design patter
                             List<int> largeShipLocation = commands[1].Execute(isHorizontal, i);
-                            endx = largeShipLocation[0];
-                            endy = largeShipLocation[1];
-                            System.Diagnostics.Debug.WriteLine("Command: Location of large ship was found");
+                            //This line is used for visitor design patter
+                            List<int> getLargeShipLocation = getLargeShip.accept(visitor, isHorizontal, i);
+                            //endx = largeShipLocation[0];
+                            //endy = largeShipLocation[1];
+                            endx = getLargeShipLocation[0];
+                            endy = getLargeShipLocation[1];
+                            //System.Diagnostics.Debug.WriteLine("Command: Location of large ship was found");
                             break;
                         case 'q':
+                            //This line is used for command design patter
                             List<int> normalShipLocation = commands[2].Execute(isHorizontal, i);
-                            endx = normalShipLocation[0];
-                            endy = normalShipLocation[1];
-                            System.Diagnostics.Debug.WriteLine("Command: Location of normal ship was found");
+                            //This line is used for visitor design patter
+                            List<int> getNormalShipLocation = getNormalShip.accept(visitor, isHorizontal, i);
+                            //endx = normalShipLocation[0];
+                            //endy = normalShipLocation[1];
+                            endx = getNormalShipLocation[0];
+                            endy = getNormalShipLocation[1];
+                            //System.Diagnostics.Debug.WriteLine("Command: Location of normal ship was found");
                             break;
                         case 'i':
+                            //This line is used for command design patter
                             List<int> smallShipLocation = commands[3].Execute(isHorizontal, i);
-                            endx = smallShipLocation[0];
-                            endy = smallShipLocation[1];
-                            System.Diagnostics.Debug.WriteLine("Command: Location of small ship was found");
+                            //This line is used for visitor design patter
+                            List<int> getSmallShipLocation = getSmallShip.accept(visitor, isHorizontal, i);
+                            //endx = smallShipLocation[0];
+                            //endy = smallShipLocation[1];
+                            endx = getSmallShipLocation[0];
+                            endy = getSmallShipLocation[1];
+                            //System.Diagnostics.Debug.WriteLine("Command: Location of small ship was found");
                             break;
                         case 'e':
+                            //This line is used for command design patter
                             List<int> extraSmallShipLocation = commands[4].Execute(isHorizontal, i);
-                            endx = extraSmallShipLocation[0];
-                            endy = extraSmallShipLocation[1];
-                            System.Diagnostics.Debug.WriteLine("Command: Location of extra small ship was found");
+                            //This line is used for visitor design patter
+                            List<int> getExtraSmallShipLocation = getExtraSmallShip.accept(visitor, isHorizontal, i);
+                            //endx = extraSmallShipLocation[0];
+                            //endy = extraSmallShipLocation[1];
+                            endx = getExtraSmallShipLocation[0];
+                            endy = getExtraSmallShipLocation[1];
+                            //System.Diagnostics.Debug.WriteLine("Command: Location of extra small ship was found");
                             break;
                         case 'c':
                             endx = isHorizontal ? x + 4 : x;
