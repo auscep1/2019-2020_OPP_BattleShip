@@ -1,4 +1,5 @@
-﻿using KronoBattleship.DESIGN_PATTERNS.Memento;
+﻿using KronoBattleship.DESIGN_PATTERNS.Flyweight_pattern;
+using KronoBattleship.DESIGN_PATTERNS.Memento;
 using KronoBattleship.DESIGN_PATTERNS.State;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -21,6 +22,11 @@ namespace KronoBattleship.Models
             Wins = 0;
             Picture = (1 + random.Next(22)) + ".png";
             State = new MementoClient();
+            //Flyweight naudojimas:
+            FlyweightFactory ff = new FlyweightFactory();
+            State2 = new ContextState(ff.GetFlyweight('W'));
+            System.Diagnostics.Debug.WriteLine("Flyweight: Waiting");
+            //State naudojimas be flyweight:
             State2 = new ContextState(new Waiting());
         }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
@@ -49,6 +55,11 @@ namespace KronoBattleship.Models
         }
         public void RestoreState()
         {
+            //Flyweight naudojimas:
+            FlyweightFactory ff = new FlyweightFactory();
+            this.State2 = new ContextState(ff.GetFlyweight('W'));
+            System.Diagnostics.Debug.WriteLine("Flyweight: Waiting");
+            //State naudojimas be flyweight:
             this.State2 = new ContextState(new Waiting());
         }
         public void SetMementoStateFree()
