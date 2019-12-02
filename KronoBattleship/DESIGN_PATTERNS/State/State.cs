@@ -1,4 +1,5 @@
 ﻿using KronoBattleship.Datalayer;
+using KronoBattleship.DESIGN_PATTERNS.Flyweight_pattern;
 using KronoBattleship.Models;
 using System;
 using System.Collections.Generic;

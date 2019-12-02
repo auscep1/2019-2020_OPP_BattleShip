@@ -13,30 +13,30 @@ namespace KronoBattleship.DESIGN_PATTERNS.Flyweight_pattern
         private Dictionary<char, State.State> flyweights = new Dictionary<char, State.State>();
         public State.State GetFlyweight(char key)
         {
-            State.State flyweight;
             if (flyweights.ContainsKey(key))
             {
-                flyweight = flyweights[key];
+                return flyweights[key];
             }
             else
             {
                 switch (key)
                 {
-                    case 'C':
-                        flyweight = new ConcreteStateConnected();
-                        break;
                     case 'W':
-                        flyweight = new Waiting();
-                        break;
+                        flyweights.Add(key, new Waiting());
+                        return flyweights[key];
+                    case 'J':
+                        flyweights.Add(key, new Joined());
+                        return flyweights[key];
+                    case 'R':
+                        flyweights.Add(key, new Ready());
+                        return flyweights[key];
                     case 'P':
-                        flyweight = new Playing();
-                        break;
+                        flyweights.Add(key, new Playing());
+                        return flyweights[key];
                     default:
                         return null;
                 }
-                flyweights.Add(key, flyweight);
             }
-            return flyweight;
         }
     }
 }
