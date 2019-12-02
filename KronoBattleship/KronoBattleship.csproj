@@ -206,6 +206,9 @@
     <Compile Include="DESIGN_PATTERNS\Proxy\Proxy.cs" />
     <Compile Include="DESIGN_PATTERNS\State\State.cs" />
     <Compile Include="DESIGN_PATTERNS\Template\Template.cs" />
+    <Compile Include="DESIGN_PATTERNS\Visitor\ShipVisitor.cs" />
+    <Compile Include="DESIGN_PATTERNS\Visitor\IVisitable.cs" />
+    <Compile Include="DESIGN_PATTERNS\Visitor\IVisitor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -1,13 +1,12 @@
-﻿using System;
+﻿using KronoBattleship.DESIGN_PATTERNS.Visitor;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace KronoBattleship.DESIGN_PATTERNS.Command
 {
     public class Command
     {
-        public class GetExtraLargeShipLocation : ICommand
+        public class GetExtraLargeShipLocation : ICommand, IVisitable
         {
             public List<int> Execute(bool isHorizontal, int iteration)
             {
@@ -24,8 +23,13 @@ namespace KronoBattleship.DESIGN_PATTERNS.Command
             {
                 return new List<int> { 0, 0 };
             }
+
+            List<int> IVisitable.accept(IVisitor visitor, bool isHorizontal, int iteration)
+            {
+                return visitor.visit(this, isHorizontal, iteration);
+            }
         }
-        public class GetLargeShipLocation : ICommand
+        public class GetLargeShipLocation : ICommand, IVisitable
         {
             public List<int> Execute(bool isHorizontal, int iteration)
             {
@@ -42,8 +46,13 @@ namespace KronoBattleship.DESIGN_PATTERNS.Command
             {
                 return new List<int> { 0, 0 };
             }
+
+            List<int> IVisitable.accept(IVisitor visitor, bool isHorizontal, int iteration)
+            {
+                return visitor.visit(this, isHorizontal, iteration);
+            }
         }
-        public class GetNormalShipLocation : ICommand
+        public class GetNormalShipLocation : ICommand, IVisitable
         {
             public List<int> Execute(bool isHorizontal, int iteration)
             {
@@ -60,8 +69,13 @@ namespace KronoBattleship.DESIGN_PATTERNS.Command
             {
                 return new List<int> { 0, 0 };
             }
+
+            List<int> IVisitable.accept(IVisitor visitor, bool isHorizontal, int iteration)
+            {
+                return visitor.visit(this, isHorizontal, iteration);
+            }
         }
-        public class GetSmallShipLocation : ICommand
+        public class GetSmallShipLocation : ICommand, IVisitable
         {
             public List<int> Execute(bool isHorizontal, int iteration)
             {
@@ -78,8 +92,13 @@ namespace KronoBattleship.DESIGN_PATTERNS.Command
             {
                 return new List<int> { 0, 0 };
             }
+
+            List<int> IVisitable.accept(IVisitor visitor, bool isHorizontal, int iteration)
+            {
+                return visitor.visit(this, isHorizontal, iteration);
+            }
         }
-        public class GetExtraSmallShipLocation : ICommand
+        public class GetExtraSmallShipLocation : ICommand, IVisitable
         {
             public List<int> Execute(bool isHorizontal, int iteration)
             {
@@ -95,6 +114,11 @@ namespace KronoBattleship.DESIGN_PATTERNS.Command
             public List<int> Undo()
             {
                 return new List<int> { 0, 0 };
+            }
+
+            List<int> IVisitable.accept(IVisitor visitor, bool isHorizontal, int iteration)
+            {
+                return visitor.visit(this, isHorizontal, iteration);
             }
         }
     }

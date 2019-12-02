@@ -45,6 +45,7 @@ namespace KronoBattleship.DESIGN_PATTERNS.Facade
             ShipChain mainBuild = buildReset;
 
             mainBuild.Build();
+            System.Diagnostics.Debug.WriteLine("Chain of responsibility: shipbuilding chain executed");
 
             //builder.BuildBase();
             //builder.BuildCoordinates();
